@@ -19,7 +19,7 @@ class InventoryMovement extends Model
     ];
     public function products()
     {
-        return $this->belongsTo(Products::class, 'product_id', 'id');
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
     public function scopeMaxiInvent($query)
     {

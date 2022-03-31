@@ -17,7 +17,7 @@
                         <input wire:model="search" class="form-control" type="text" placeholder="Buscar Producto...">
                     </div>
                 </div>
-                <div class="row table-responsive-sm">
+                <div class="row table-responsive">
                     <table class="table table-sm table-hover overflow-scroll align-middle mb-0">
                         <thead>
                             <tr>
@@ -72,15 +72,16 @@
                                     <tr>
                                         <td class="text-right">{{ $producto->producto->id }}
                                         </td>
-                                        <td class="text-justify">
+                                        <td class="actions">
                                             {{ $producto->producto->description }}</td>
                                         <td class="text-left">{{ $producto->producto->pvpu }}</td>
                                         <td class="text-left">{{ $producto->producto->pvpc }}</td>
                                         <td class="text-left">{{ $producto->producto->pvpr }}</td>
-                                        <td class="text-center">
+                                        <td class="actions">
                                             {{ $producto->laboratorio->name }}
                                         </td>
-                                        <td class="text-justify">{{ $producto->producto->utility }}
+                                        <td class="text-sm-start text-break fs-6 lh-1">
+                                            {{ $producto->producto->utility }}
                                         </td>
                                         <td class="text-right">
                                             {{ $producto->stockUnidad }}</td>
@@ -89,9 +90,6 @@
                                         <td>
                                             <button wire:click.prevent="agregarCarrito({{ $producto->producto->id }})"
                                                 class="btn btn-primary">Agregar</button>
-                                            {{-- <button
-                                                wire:click.prevent="$emit('agregarCarrito',{{ $producto->producto->id }})"
-                                                class="btn btn-primary">Agregar</button> --}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -178,7 +176,7 @@
                                     @foreach ($carroVenta as $carro)
                                         <tr>
                                             <td class="text-right">{{ $carro['id'] }} </td>
-                                            <td class="text-left">{{ $carro['description'] }}</td>
+                                            <td class="actions">{{ $carro['description'] }}</td>
                                             <td class="text-justify">
                                                 <select class="form-select" aria-label="Default select example"
                                                     name="prsentacion{{ $carro['id'] }}"
@@ -197,14 +195,14 @@
                                                     wire:change="cambioRegistroCarro({{ $carro['id'] }},2,document.getElementById('cantidaProd{{ $carro['id'] }}').value)">
                                             </td>
                                             <td class="text-left row">
-                                                <div class="col-5">
+                                                <div class="col-4 p-0">
                                                     {{ $carro['precio'] }}
                                                 </div>
-                                                <div class=" col-7 form-check">
+                                                <div class="col-8 form-check pl-0">
                                                     <input class="form-check-input" type="checkbox"
                                                         name="pvpr{{ $carro['id'] }}" id="pvpr{{ $carro['id'] }}"
                                                         wire:click="cambioRegistroCarro({{ $carro['id'] }},3, ($(pvpr{{ $carro['id'] }}).is(':checked')) )">
-                                                    <label class="   form-check-label" for="defaultCheck1">
+                                                    <label class="form-check-label" for="defaultCheck1">
                                                         Precio Caja?
                                                     </label>
                                                 </div>
@@ -242,3 +240,10 @@
         })
     })
 </script>
+<style>
+    .actions {
+        white-space: nowrap;
+        width: 1px;
+    }
+
+</style>

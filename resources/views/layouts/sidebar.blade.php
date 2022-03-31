@@ -27,7 +27,7 @@
                              <i class="zmdi zmdi-view-dashboard"></i>
                          </div>
                          <div class="navLateral-body-cr hide-on-tablet">
-                             HOME
+                             INICIO
                          </div>
                      </a>
                  </li>
@@ -38,7 +38,7 @@
                              <i class="zmdi zmdi-case"></i>
                          </div>
                          <div class="navLateral-body-cr hide-on-tablet">
-                             ADMINISTRATION
+                             ADMINISTRACION
                          </div>
                          <span class="zmdi zmdi-chevron-left"></span>
                      </a>
@@ -89,7 +89,7 @@
                                      <i class="zmdi zmdi-card"></i>
                                  </div>
                                  <div class="navLateral-body-cr hide-on-tablet">
-                                     PAYMENTS
+                                     PAGOS
                                  </div>
                              </a>
                          </li>
@@ -114,7 +114,7 @@
                                      <i class="zmdi zmdi-account"></i>
                                  </div>
                                  <div class="navLateral-body-cr hide-on-tablet">
-                                     ADMINISTRATORS
+                                     ADMINISTRADOR
                                  </div>
                              </a>
                          </li>
@@ -124,7 +124,7 @@
                                      <i class="zmdi zmdi-accounts"></i>
                                  </div>
                                  <div class="navLateral-body-cr hide-on-tablet">
-                                     CLIENT
+                                     CLIENTES
                                  </div>
                              </a>
                          </li>
@@ -137,20 +137,44 @@
                              <i class="zmdi zmdi-washing-machine"></i>
                          </div>
                          <div class="navLateral-body-cr hide-on-tablet">
-                             PRODUCTS
+                             PRODUCTOS
                          </div>
                      </a>
                  </li>
                  <li class="full-width divider-menu-h"></li>
                  <li class="full-width">
-                     <a href="sale" class="full-width">
+                     <a href="#!" class="full-width btn-subMenu">
                          <div class="navLateral-body-cl">
                              <i class="zmdi zmdi-shopping-cart"></i>
                          </div>
                          <div class="navLateral-body-cr hide-on-tablet">
-                             SALES
+                             VENTAS
                          </div>
+                         <span class="zmdi zmdi-chevron-left"></span>
                      </a>
+                     <ul class="full-width menu-principal sub-menu-options">
+                         <li class="full-width">
+                             <a href="sale" class="full-width">
+                                 <div class="navLateral-body-cl">
+                                     <i class="zmdi zmdi-shopping-cart"></i>
+                                 </div>
+                                 <div class="navLateral-body-cr hide-on-tablet">
+                                     VENTA
+                                 </div>
+                             </a>
+                         </li>
+                         <li class="full-width">
+                             <a href="client.html" class="full-width">
+                                 <div class="navLateral-body-cl">
+                                     <i class="zmdi zmdi-accounts"></i>
+                                 </div>
+                                 <div class="navLateral-body-cr hide-on-tablet">
+                                     REGISTRO DE VENTAS
+                                 </div>
+                             </a>
+                         </li>
+                     </ul>
+
                  </li>
                  <li class="full-width divider-menu-h"></li>
                  <li class="full-width">

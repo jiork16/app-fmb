@@ -4,7 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Traits\SortBy;
 use Livewire\Component;
-use App\Models\Products;
+use App\Models\Product;
 use Livewire\WithPagination;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Resources\GenericResource;
@@ -61,14 +61,7 @@ class ListProduct extends Component
     public function render()
     {
         session()->flash('Modulo', 'Product');
-        $data = Products::leftJoin('laboratories', function ($join) {
-            $join->on('laboratories.id', '=', 'products.laboratorie_id');
-        })
-            ->where(function ($query) {
-                $query->where('products.description', 'like', '%' . $this->search . '%')
-                    ->orWhere('products.utility', 'like', '%' . $this->search . '%')
-                    ->orWhere('laboratories.name', 'like', '%' . $this->search . '%');
-            })
+        $data = Product::productsActive($this->search)
             ->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')
             ->paginate($this->perPage);
         //dd($data);
