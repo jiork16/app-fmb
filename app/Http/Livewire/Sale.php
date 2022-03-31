@@ -45,7 +45,7 @@ class Sale extends Component
      *
      * @var string
      */
-    public $orderBy =  'products.id';
+    //public $orderBy =  'products.id';
     /**
      * Ordenar de manera ascendente o descendente
      *
