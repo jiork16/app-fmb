@@ -4,7 +4,7 @@
      <section class="NotificationArea">
          <div class="full-width text-center NotificationArea-title tittles">Notifications <i
                  class="zmdi zmdi-close btn-Notification"></i></div>
-         <a href="#" class="Notification" id="notifation-unread-1">
+         <a class="Notification" id="notifation-unread-1">
              <div class="Notification-icon"><i class="zmdi zmdi-accounts-alt bg-info"></i></div>
              <div class="Notification-text">
                  <p>
@@ -16,7 +16,7 @@
              </div>
              <div class="mdl-tooltip mdl-tooltip--left" for="notifation-unread-1">Notification as UnRead</div>
          </a>
-         <a href="#" class="Notification" id="notifation-read-1">
+         <a class="Notification" id="notifation-read-1">
              <div class="Notification-icon"><i class="zmdi zmdi-cloud-download bg-primary"></i></div>
              <div class="Notification-text">
                  <p>
@@ -28,7 +28,7 @@
              </div>
              <div class="mdl-tooltip mdl-tooltip--left" for="notifation-read-1">Notification as Read</div>
          </a>
-         <a href="#" class="Notification" id="notifation-unread-2">
+         <a class="Notification" id="notifation-unread-2">
              <div class="Notification-icon"><i class="zmdi zmdi-upload bg-success"></i></div>
              <div class="Notification-text">
                  <p>
@@ -40,7 +40,7 @@
              </div>
              <div class="mdl-tooltip mdl-tooltip--left" for="notifation-unread-2">Notification as UnRead</div>
          </a>
-         <a href="#" class="Notification" id="notifation-read-2">
+         <a class="Notification" id="notifation-read-2">
              <div class="Notification-icon"><i class="zmdi zmdi-mail-send bg-danger"></i></div>
              <div class="Notification-text">
                  <p>
@@ -52,7 +52,7 @@
              </div>
              <div class="mdl-tooltip mdl-tooltip--left" for="notifation-read-2">Notification as Read</div>
          </a>
-         <a href="#" class="Notification" id="notifation-read-3">
+         <a class="Notification" id="notifation-read-3">
              <div class="Notification-icon"><i class="zmdi zmdi-folder bg-primary"></i></div>
              <div class="Notification-text">
                  <p>

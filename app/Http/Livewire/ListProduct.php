@@ -32,7 +32,7 @@ class ListProduct extends Component
      *
      * @var integer
      */
-    public $perPage  = 10;
+    public $perPage  = 5;
     /**
      * Buscar entre los registros de las transacciones
      *

@@ -33,7 +33,7 @@
                  </li>
                  <li class="full-width divider-menu-h"></li>
                  <li class="full-width">
-                     <a href="#!" class="full-width btn-subMenu">
+                     <a class="full-width btn-subMenu">
                          <div class="navLateral-body-cl">
                              <i class="zmdi zmdi-case"></i>
                          </div>
@@ -98,7 +98,7 @@
                  </li>
                  <li class="full-width divider-menu-h"></li>
                  <li class="full-width">
-                     <a href="#!" class="full-width btn-subMenu">
+                     <a class="full-width btn-subMenu">
                          <div class="navLateral-body-cl">
                              <i class="zmdi zmdi-face"></i>
                          </div>
@@ -143,38 +143,42 @@
                  </li>
                  <li class="full-width divider-menu-h"></li>
                  <li class="full-width">
-                     <a href="#!" class="full-width btn-subMenu">
-                         <div class="navLateral-body-cl">
-                             <i class="zmdi zmdi-shopping-cart"></i>
-                         </div>
-                         <div class="navLateral-body-cr hide-on-tablet">
-                             VENTAS
-                         </div>
-                         <span class="zmdi zmdi-chevron-left"></span>
-                     </a>
-                     <ul class="full-width menu-principal sub-menu-options">
-                         <li class="full-width">
-                             <a href="sale" class="full-width">
-                                 <div class="navLateral-body-cl">
-                                     <i class="zmdi zmdi-shopping-cart"></i>
-                                 </div>
-                                 <div class="navLateral-body-cr hide-on-tablet">
-                                     VENTA
-                                 </div>
-                             </a>
-                         </li>
-                         <li class="full-width">
-                             <a href="client.html" class="full-width">
-                                 <div class="navLateral-body-cl">
-                                     <i class="zmdi zmdi-accounts"></i>
-                                 </div>
-                                 <div class="navLateral-body-cr hide-on-tablet">
-                                     REGISTRO DE VENTAS
-                                 </div>
-                             </a>
-                         </li>
-                     </ul>
+                     <<<<<<< HEAD <a href="#!" class="full-width btn-subMenu">
+                         =======
+                         <a class="full-width btn-subMenu">
+                             >>>>>>> df55f08 (Se suben cambios de carrito)
+                             <div class="navLateral-body-cl">
+                                 <i class="zmdi zmdi-shopping-cart"></i>
+                             </div>
+                             <div class="navLateral-body-cr hide-on-tablet">
+                                 VENTAS
+                             </div>
+                             <span class="zmdi zmdi-chevron-left"></span>
+                         </a>
+                         <ul class="full-width menu-principal sub-menu-options">
+                             <li class="full-width">
+                                 <a href="sale" class="full-width">
+                                     <div class="navLateral-body-cl">
 
+                                         <i class="zmdi zmdi-shopping-cart-add"></i>
+                                     </div>
+                                     <div class="navLateral-body-cr hide-on-tablet">
+                                         VENTA
+                                     </div>
+                                 </a>
+                             </li>
+                             <li class="full-width">
+                                 <a href="client.html" class="full-width">
+                                     <div class="navLateral-body-cl">
+
+                                         <i class="zmdi zmdi-view-list-alt"></i>
+                                     </div>
+                                     <div class="navLateral-body-cr hide-on-tablet">
+                                         REPORTE VENTA
+                                     </div>
+                                 </a>
+                             </li>
+                         </ul>
                  </li>
                  <li class="full-width divider-menu-h"></li>
                  <li class="full-width">
@@ -225,3 +229,6 @@
          </nav>
      </div>
  </section>
+ <style>
+
+ </style>

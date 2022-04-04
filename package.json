@@ -21,10 +21,8 @@
         "tailwindcss": "^3.0.0"
     },
     "dependencies": {
-        "sweetalert2": "^11.4.8"
-    },
-     "post-install-cmd": {
-     "php artisan clear-compiled",
-     "chmod -R 777 public/"
- }
+
+        "sweetalert2": "^11.4.8",
+        "turbolinks": "^5.2.0"
+    }
 }

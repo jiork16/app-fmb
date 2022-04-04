@@ -21,7 +21,6 @@
                     </div>
                 </div>
                 <div class="row table-responsive">
-
                     <table class="table table-sm table-hover table-striped overflow-scroll tblLayoutWidFont">
                         <thead>
                             <tr>
@@ -79,13 +78,12 @@
                                     <tr>
                                         <td class="text-right">{{ $producto->producto->id }}
                                         </td>
-
                                         <td class="text-sm-start">
                                             {{ $producto->producto->description }}</td>
                                         <td class="text-left">{{ $producto->producto->pvpu }}</td>
                                         <td class="text-left">{{ $producto->producto->pvpc }}</td>
                                         <td class="text-left">{{ $producto->producto->pvpr }}</td>
-                                        <td class="actions">
+                                        <td class="text-center">
                                             {{ $producto->laboratorio->name }}
                                         </td>
                                         <td class="text-sm textJustificado">{{ $producto->producto->utility }}
@@ -95,10 +93,8 @@
                                         <td class="text-right">
                                             {{ $producto->stockCaja }}</td>
                                         <td>
-
                                             <button class="btn btn-sm btn-primary btnDisplayBlocRela" id="btnAgregar"
                                                 wire:click="$emitUp('setProductoSelect',{{ $producto->producto->id }},'{{ $producto->producto->description }}')">Agregar</button>
-
                                         </td>
                                     </tr>
                                 @endforeach
@@ -183,7 +179,6 @@
                             <tbody class="text-center">
                                 @foreach ($carroVenta as $carro)
                                     <tr>
-
                                         <td class="text-right">{{ $carro['id'] }} </td>
                                         <td class="text-left">{{ $carro['description'] }}</td>
                                         <td class="text-right">

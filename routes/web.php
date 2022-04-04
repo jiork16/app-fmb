@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PageController;
+use App\Http\Livewire\Index;
+use App\Http\Livewire\ListProduct;
+use App\Http\Livewire\Sale;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,11 +21,15 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::get('/dashboard', [PageController::class, 'index']);
+    Route::get('/dashboard', Index::class);
+    Route::get('product', ListProduct::class)->name('producto');
+    Route::get('sale', Sale::class)->name('sale');
+    Route::get('listSale', ListProduct::class)->name('listSale');
+    /* Route::get('/dashboard', [PageController::class, 'index']);
     Route::get('product', function () {
         return view('product.product');
     })->name('producto');
     Route::get('sale', function () {
         return view('sales.sales');
-    })->name('sale');
+    })->name('sale');*/
 });
