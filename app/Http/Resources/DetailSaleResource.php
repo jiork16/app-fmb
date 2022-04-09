@@ -15,10 +15,10 @@ class DetailSaleResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'sale_id'       => $this->sale_id,
-            'product_id'    => $this->client_id,
-            'unit'          => $this->user_id,
-            'price'         => $this->formPayment->description,
+
+            'product_id'    => $this->product_id,
+            'unit'          => $this->unit,
+            'price'         => $this->price,
             'sub_total'     => $this->sub_total,
             'discount'      => $this->discount,
             'base_iva_0'    => $this->base_iva_0,
