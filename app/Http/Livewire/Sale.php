@@ -3,12 +3,18 @@
 namespace App\Http\Livewire;
 
 use stdClass;
+
 use App\Traits\SortBy;
 use Livewire\Component;
+use App\Models\DetailSale;
 use Livewire\WithPagination;
 use App\Models\InventoryMovement;
+use App\Models\Sale as ModelsSale;
+use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Resources\InventoryMovementResource;
+
+use function PHPUnit\Framework\isNull;
 
 class Sale extends Component
 {
@@ -57,7 +63,6 @@ class Sale extends Component
      *
      * @var object
      */
-    public array  $carroVenta = [];
     /**
      * Se almacenaran los tipo de venta de medicamento
      *
@@ -75,13 +80,14 @@ class Sale extends Component
     public int $idproductoSelect = 0;
     public $productoName;
     protected $listeners = ['agregar' => 'agregarCarrito', 'setProductoSelect'];
+    public $carroVenta = [];
     public function getProductoNombreProperty()
     {
         return $this->productoName;
     }
     public function render()
     {
-        session()->flash('Modulo', 'Sales');
+        session()->flash('Modulo', 'Venta');
         $this->fechMaxInvent = InventoryMovement::maxiInvent()->get()[0]->fecha;
         $data = QueryBuilder::for(InventoryMovement::stock($this->fechMaxInvent, $this->search))->paginate($this->perPage);
         $inventarioData = InventoryMovementResource::collection(
@@ -198,16 +204,8 @@ class Sale extends Component
     }
     public function relizarCompra()
     {
-        $fillable = [
-            "product_id",
-            "movement_id",
-            "box",
-            "unit",
-            "total",
-            "date_movement"
-        ];
         foreach ($this->carroVenta as $carroVenta) {
-            $fillable = [
+            $fillableMovimiento = [
                 "product_id"    => $carroVenta["id"],
                 "movement_id"   => 2,
                 "box"           => ($carroVenta["presentacion"] == "UNIDAD") ? 0  : $carroVenta["cantidad"],
@@ -215,7 +213,33 @@ class Sale extends Component
                 "total"         => ($carroVenta["presentacion"] == "UNIDAD") ? $carroVenta["cantidad"]  : $carroVenta["cantidad"] *  $carroVenta["unidadProducto"],
                 "date_movement" => now()
             ];
-            InventoryMovement::create($fillable);
+            InventoryMovement::create($fillableMovimiento);
+        }
+        $fillableSale = [
+            "client_id"         => 1,
+            "user_id"           => Auth::user()->id,
+            "form_payment_id"   => 1,
+            "sub_total"         => $this->totalCarrito,
+            "discount"          => 0,
+            "base_iva_0"        => 0,
+            "base_iva_12"       => 0,
+            "total"             => $this->totalCarrito,
+            "date_sale"         => now()
+        ];
+        $sale = ModelsSale::create($fillableSale);
+        foreach ($this->carroVenta as $carroVenta) {
+            $fillableDetail = [
+                "sale_id"       => $sale->id,
+                "product_id"    => $carroVenta["id"],
+                "unit"          => $carroVenta["cantidad"],
+                "price"         => $carroVenta["precio"],
+                "sub_total"     => $carroVenta["total"],
+                "discount"      => 0,
+                "base_iva_0"    => 0,
+                "base_iva_12"   => 0,
+                "total"         => $carroVenta["total"],
+            ];
+            DetailSale::create($fillableDetail);
         }
         $this->dispatchBrowserEvent('swalAlertdialog', [
             'title' => 'Movimiento Ingresado',
