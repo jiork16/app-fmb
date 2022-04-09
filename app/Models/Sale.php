@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Distributions\F;
+use Carbon\Carbon;
 
 class Sale extends Model
 {
@@ -28,9 +29,27 @@ class Sale extends Model
     {
         return $this->hasMany(DetailSale::class, 'sale_id', 'id');
     }
-    public function scopeSales($query)
+    public function scopeSales($query, $fechaDesde = '', $fechaHasta = '')
     {
-        return $query->where('status', '=', true);
+        $query->where(
+            'status',
+            '=',
+            true
+        )->when($fechaDesde != '' && $fechaHasta == '', function ($query)  use ($fechaDesde) {
+            return $query->where('date_sale', '=', date_format(Carbon::parse($fechaDesde), 'Y-m-d'));
+        })->when($fechaDesde != '' && $fechaHasta != '', function ($query)  use ($fechaDesde, $fechaHasta) {
+            return $query->where([
+                ['date_sale', '>=', date_format(Carbon::parse($fechaDesde), 'Y-m-d')],
+                ['date_sale', '<=', date_format(Carbon::parse($fechaHasta), 'Y-m-d')]
+            ]);
+        })->when($fechaDesde == '' && $fechaHasta == '', function ($query) {
+            return $query->where(
+                'date_sale',
+                '=',
+                date_format(Carbon::parse(now()), 'Y-m-d')
+            );
+        });
+        return $query;
     }
     public function product()
     {
