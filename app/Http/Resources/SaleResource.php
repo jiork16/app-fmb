@@ -25,7 +25,7 @@ class SaleResource extends JsonResource
             'base_iva_12'       => $this->base_iva_12,
             'total'             => $this->total,
             'date_sale'         => $this->date_sale,
-            'detalle'           => new DetailSaleResource($this->detailSales)
+            'detalle'           => new DetailSaleResource($this->detailSales[0])
         ];
         //return parent::toArray($request);
     }
