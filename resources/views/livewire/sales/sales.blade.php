@@ -26,47 +26,64 @@
                         <thead>
                             <tr>
                                 <th style="vertical-align: middle; width: 5%">
-                                    <a class="text-primary" href="#">
+                                    <a class="text-primary">
                                         #
                                     </a>
                                 </th>
                                 <th style="vertical-align: middle;">
-                                    <a class="text-primary" href="#">
+                                    <a class="text-primary" wire:click.prevent="sortBy('products.description')"
+                                        role="button">
                                         Producto
+                                        @include('includes._sort-icon', [
+                                            'field' => 'products.description',
+                                        ])
                                     </a>
                                 </th>
-                                <th style=" vertical-align: middle; width: 5%">
-                                    <a class="text-primary" href="#">
+                                <th style=" vertical-align: middle; width: 5%"
+                                    wire:click.prevent="sortBy('products.pvpu')" role="button">
+                                    <a class="text-primary" href="">
                                         PVPU
+                                        @include('includes._sort-icon', [
+                                            'field' => 'products.pvpu',
+                                        ])
                                     </a>
                                 </th>
-                                <th style="vertical-align: middle; width: 5%">
-                                    <a class="text-primary" href="#">
+                                <th style="vertical-align: middle; width: 5%"
+                                    wire:click.prevent="sortBy('products.pvpc')" role="button">
+                                    <a class="text-primary">
                                         PVPC
+                                        @include('includes._sort-icon', [
+                                            'field' => 'products.pvpc',
+                                        ])
                                     </a>
                                 </th>
                                 <th style="vertical-align: middle; width: 5%">
-                                    <a class="text-primary" href="#">
+                                    <a class="text-primary">
                                         PVPR
                                     </a>
                                 </th>
+                                <th style="vertical-align: middle; width: 10%">
+                                    <a class="text-primary">
+                                        Descuento
+                                    </a>
+                                </th>
                                 <th style="vertical-align: middle; width: 15%">
-                                    <a class="text-primary" href="#">
+                                    <a class="text-primary">
                                         Laboratorio
                                     </a>
                                 </th>
                                 <th style="vertical-align: middle;">
-                                    <a class="text-primary" href="#">
+                                    <a class="text-primary">
                                         Utilidad
                                     </a>
                                 </th>
                                 <th style="vertical-align: middle; width: 6%">
-                                    <a class="text-primary" href="#">
+                                    <a class="text-primary">
                                         Stock<br>Unidad
                                     </a>
                                 </th>
                                 <th style="vertical-align: middle; width: 5%">
-                                    <a class="text-primary" href="#">
+                                    <a class="text-primary">
                                         Stock<br>Caja
                                     </a>
                                 </th>
@@ -85,6 +102,7 @@
                                         <td class="text-left">{{ $producto->producto->pvpu }}</td>
                                         <td class="text-left">{{ $producto->producto->pvpc }}</td>
                                         <td class="text-left">{{ $producto->producto->pvpr }}</td>
+                                        <td class="text-left">{{ $producto->producto->porcen_discount }}%</td>
                                         <td class="actions">
                                             {{ $producto->laboratorio->name }}
                                         </td>
@@ -148,32 +166,32 @@
                             <thead>
                                 <tr>
                                     <th style="width: 5%">
-                                        <a class="text-primary" href="#">
+                                        <a class="text-primary">
                                             #
                                         </a>
                                     </th>
                                     <th>
-                                        <a class="text-primary" href="#">
+                                        <a class="text-primary">
                                             Producto
                                         </a>
                                     </th>
                                     <th style="width: 10%">
-                                        <a class="text-primary" href="#">
+                                        <a class="text-primary">
                                             Presentacion
                                         </a>
                                     </th>
                                     <th style="width: 8%">
-                                        <a class="text-primary" href="#">
+                                        <a class="text-primary">
                                             Unidad
                                         </a>
                                     </th>
                                     <th style="width: 20%">
-                                        <a class="text-primary" href="#">
+                                        <a class="text-primary">
                                             Precio
                                         </a>
                                     </th>
                                     <th style="width: 10%">
-                                        <a class="text-primary" href="#">
+                                        <a class="text-primary">
                                             Total
                                         </a>
                                     </th>
@@ -228,7 +246,7 @@
                                             {{ $carro['total'] }}
                                         </td>
                                         <td>
-                                            <button wire:click.prevent="eliminarCarrito({{ $carro['idCarro'] }})"
+                                            <button wire:click.prevent="eliminarCarrito('{{ $carro['idCarro'] }}')"
                                                 class="btn btn-danger">Eliminar</button>
                                         </td>
                                     </tr>
@@ -249,7 +267,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header row-span-2">
-                    <h5 class="modal-title col-lg-11" id="tituloModal">{{ $this->productoNombre }}</h5>
+                    <h5 class="modal-title col-lg-11" id="productoName"></h5>
                     <button type="button" class="btn-close col-lg-1" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
@@ -274,7 +292,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-secondary" onclick="cerrarModal()">Cerrar</button>
                     <button type="button" class="btn btn-primary" onclick="agregar()">Guardar</button>
                 </div>
             </div>
@@ -292,8 +310,12 @@
 
     }
 
+    function cerrarModal() {
+        $("#modalProducto").modal('hide');
+    }
+
     function limpiarControles() {
-        document.getElementById("cantidaProd").defaultValue = "0";
+        document.getElementById('cantidaProd').value = 1;
         $("#pvpr").prop("checked", false);
     }
     window.addEventListener('swalAlertdialog', event => {
@@ -308,11 +330,12 @@
     window.addEventListener('showmodal', event => {
         $('#modalProducto').appendTo("body");
         if (event.detail.show) {
+            document.getElementById('productoName').innerHTML = event.detail.productoName;
+            document.getElementById('cantidaProd').value = 1;
             $("#modalProducto").modal('show');
         } else {
             $("#modalProducto").modal('hide');
         }
-        document.getElementById("cantidaProd").defaultValue = "1";
     })
 </script>
 <style>
