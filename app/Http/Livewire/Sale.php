@@ -64,6 +64,12 @@ class Sale extends Component
      * @var object
      */
     /**
+     * Ordenar los registros segun la columna.
+     *
+     * @var string
+     */
+    public $orderBy =  'products.description';
+    /**
      * Se almacenaran los tipo de venta de medicamento
      *
      * @var object
@@ -77,23 +83,22 @@ class Sale extends Component
      */
     public $fechMaxInvent;
     public float $totalCarrito = 0.00;
+    public float $totalDescuento = 0.00;
     public int $idproductoSelect = 0;
-    public $productoName;
+    public float $subTotal = 0.00;
     protected $listeners = ['agregar' => 'agregarCarrito', 'setProductoSelect'];
     public $carroVenta = [];
-    public function getProductoNombreProperty()
-    {
-        return $this->productoName;
-    }
     public function render()
     {
         session()->flash('Modulo', 'Venta');
         $this->fechMaxInvent = InventoryMovement::maxiInvent()->get()[0]->fecha;
-        $data = QueryBuilder::for(InventoryMovement::stock($this->fechMaxInvent, $this->search))->paginate($this->perPage);
+        $data = QueryBuilder::for(InventoryMovement::stock($this->fechMaxInvent, $this->search, 0, $this->orderBy, $this->orderAsc))->paginate($this->perPage);
         $inventarioData = InventoryMovementResource::collection(
             $data
         )->response()->getData();
+
         $inventarioData->paginate = $data;
+
         return view('livewire.sales.sales', ['inventarioData' =>  $inventarioData, 'carroVenta' => $this->carroVenta]);
     }
     public function agregarCarrito($presentacion, $cantidad, $siPvpr)
@@ -103,21 +108,27 @@ class Sale extends Component
             QueryBuilder::for(InventoryMovement::stock($this->fechMaxInvent, $this->search, $this->idproductoSelect))->get()
         )->response()->getData();
         foreach ($datoProducto->data as $producto) {
+            $descuento              = $producto->producto->porcen_discount;
+            $pvu                    = $descuento > 0 ? $producto->producto->pvpu_discount : $producto->producto->pvpu;
+            $pvc                    = $descuento > 0 ? $producto->producto->pvpc_discount : $producto->producto->pvpc;
             $object->idCarro        = uniqid(true);
             $object->id             = $producto->producto->id;
             $object->description    = $producto->producto->description;
             $object->pvpu           = $producto->producto->pvpu;
             $object->pvpc           = $producto->producto->pvpc;
             $object->pvpr           = $producto->producto->pvpr;
+            $object->pvpud          = $pvu;
+            $object->pvpcd          = $pvc;
             $object->cantidad       = $cantidad;
             $object->unidadProducto = $producto->producto->unit;
             if ($siPvpr) {
-                $object->precio     = $producto->producto->pvpr;
-                $object->total      = $cantidad * $producto->producto->pvpr;
+                $object->precio     =   $object->pvpr;
+                $object->total      =   $cantidad * $object->pvpr;
             } else {
-                $object->precio         = ($presentacion == "UNIDAD") ? $producto->producto->pvpu : $producto->producto->pvpc;
-                $object->total          = ($presentacion == "UNIDAD") ? $cantidad *  $producto->producto->pvpu : $cantidad *  $producto->producto->pvpc;
+                $object->precio     = ($presentacion == "UNIDAD") ? $pvu : $pvc;
+                $object->total      = ($presentacion == "UNIDAD") ? $cantidad *  $pvu : $cantidad *   $pvc;
             }
+            $object->descuento      = ($presentacion == "UNIDAD") ? $pvu : $pvc;
             $object->siPvpr         = $siPvpr;
             $object->presentacion   = $presentacion;
         }
@@ -134,13 +145,13 @@ class Sale extends Component
                     case 1:  # Presentacion
                         //dd($nuevoValor);
                         if ($nuevoValor == "UNIDAD") {
-                            $carroVenta["precio"] = $carroVenta["pvpu"];
-                            $carroVenta["total"] =  $carroVenta["cantidad"] * $carroVenta["pvpu"];
+                            $carroVenta["precio"]       = $carroVenta["descuento"] > 0 ? $carroVenta["pvpud"] : $carroVenta["pvpu"];
+                            $carroVenta["total"]        = $carroVenta["cantidad"] * $carroVenta["precio"];
                         } else {
-                            $carroVenta["total"] =  $carroVenta["cantidad"] * $carroVenta["pvpc"];
-                            $carroVenta["precio"] = $carroVenta["pvpc"];
+                            $carroVenta["precio"]       = $carroVenta["descuento"] > 0 ? $carroVenta["pvpcd"] : $carroVenta["pvpc"];
+                            $carroVenta["total"]        = $carroVenta["cantidad"] * $carroVenta["precio"];
                         }
-                        $carroVenta["presentacion"] = $nuevoValor;
+                        $carroVenta["presentacion"]     = $nuevoValor;
                         break;
 
                     case 2: # Cantidad
@@ -159,9 +170,9 @@ class Sale extends Component
                                 $carroVenta["total"] = $carroVenta["cantidad"] * $carroVenta["pvpr"];
                             } else {
                                 if ($carroVenta["presentacion"] == "UNIDAD") {
-                                    $carroVenta["precio"] = $carroVenta["pvpu"];
+                                    $carroVenta["precio"] = $carroVenta["descuento"] > 0 ? $carroVenta["pvpud"] : $carroVenta["pvpu"];
                                 } else {
-                                    $carroVenta["precio"] = $carroVenta["pvpc"];
+                                    $carroVenta["precio"] = $carroVenta["descuento"] > 0 ? $carroVenta["pvpcd"] : $carroVenta["pvpc"];
                                 }
                                 $carroVenta["total"] =  $carroVenta["cantidad"] * $carroVenta["precio"];
                             }
@@ -194,12 +205,26 @@ class Sale extends Component
     {
         $this->carroVenta = [];
         $this->totalCarrito = 0;
+        $this->totalDescuento = 0;
+        $this->subTotal = 0;
     }
     public function calcularTotalCarrito()
     {
         $this->totalCarrito = 0;
+        $this->totalDescuento = 0;
+        $this->subTotal = 0;
         foreach ($this->carroVenta as $carroVenta) {
-            $this->totalCarrito = $this->totalCarrito  + $carroVenta["total"];
+            if ($carroVenta["siPvpr"]) {
+                $this->subTotal  = $this->subTotal + $carroVenta["pvpr"];
+            } else {
+                if ($carroVenta["presentacion"]  == "UNIDAD") {
+                    $this->subTotal  =  $this->subTotal + $carroVenta["pvpu"];
+                } else {
+                    $this->subTotal  =  $this->subTotal + $carroVenta["pvpc"];
+                }
+                $this->totalCarrito = $this->totalCarrito  + $carroVenta["total"];
+                $this->totalDescuento = $this->totalDescuento  + ($carroVenta["descuento"] *  $carroVenta["cantidad"]);
+            }
         }
     }
     public function relizarCompra()
@@ -219,8 +244,8 @@ class Sale extends Component
             "client_id"         => 1,
             "user_id"           => Auth::user()->id,
             "form_payment_id"   => 1,
-            "sub_total"         => $this->totalCarrito,
-            "discount"          => 0,
+            "sub_total"         => $this->subTotal,
+            "discount"          => $this->subTotal - $this->totalDescuento,
             "base_iva_0"        => 0,
             "base_iva_12"       => 0,
             "total"             => $this->totalCarrito,
@@ -228,31 +253,47 @@ class Sale extends Component
         ];
         $sale = ModelsSale::create($fillableSale);
         foreach ($this->carroVenta as $carroVenta) {
+            $descuento  = 0;
+            if ($carroVenta["siPvpr"] == false) {
+                $precio             = $carroVenta["presentacion"] == "UNIDAD" ?  $carroVenta["pvpu"] : $carroVenta["pvpc"];
+                if ($carroVenta["descuento"] > 0) {
+                    $descuento             = $carroVenta["presentacion"] == "UNIDAD" ?  $carroVenta["pvpud"] : $carroVenta["pvpcd"];
+                }
+            } else {
+                $precio             = $carroVenta["pvpr"];
+            }
             $fillableDetail = [
                 "sale_id"       => $sale->id,
                 "product_id"    => $carroVenta["id"],
                 "unit"          => $carroVenta["cantidad"],
-                "price"         => $carroVenta["precio"],
-                "sub_total"     => $carroVenta["total"],
-                "discount"      => 0,
+                "price"         => $precio,
+                "sub_total"     => $precio * $carroVenta["cantidad"],
+                "discount"      => ($precio * $carroVenta["cantidad"]) - ($descuento * $carroVenta["cantidad"]),
                 "base_iva_0"    => 0,
                 "base_iva_12"   => 0,
                 "total"         => $carroVenta["total"],
             ];
             DetailSale::create($fillableDetail);
         }
-        $this->dispatchBrowserEvent('swalAlertdialog', [
-            'title' => 'Movimiento Ingresado',
-            'icon' => 'success',
-            'confirmButtonText' => 'OK'
-        ]);
-        $this->limpiarCarrito();
+        if (DetailSale::where('sale_id', $sale->id,)->count() == count($this->carroVenta)) {
+            $this->dispatchBrowserEvent('swalAlertdialog', [
+                'title' => 'Movimiento Ingresado',
+                'icon' => 'success',
+                'confirmButtonText' => 'OK'
+            ]);
+            $this->limpiarCarrito();
+        } else {
+            $this->dispatchBrowserEvent('swalAlertdialog', [
+                'title' => 'Problema al ingresar el Movimiento',
+                'icon' => 'error',
+                'confirmButtonText' => 'OK'
+            ]);
+        }
     }
     public function setProductoSelect($idproducto, $producto, $show = true)
     {
         $this->idproductoSelect = $idproducto;
-        $this->productoName = $producto;
-        $this->dispatchBrowserEvent('showmodal', ['show' => $show]);
+        $this->dispatchBrowserEvent('showmodal', ['show' => $show, "productoName" => $producto]);
         if ($show == false) {
             usleep(50); # Wait...
         }
