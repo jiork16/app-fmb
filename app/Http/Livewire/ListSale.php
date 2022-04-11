@@ -83,8 +83,9 @@ class ListSale extends Component
             $object->base_iva_12    =   $data->base_iva_12;
             $object->total          =   $data->total;
             $object->producto       =   $data->producto;
+            array_push($this->saleDetalle, (array) $object);
         }
-        array_push($this->saleDetalle, (array) $object);
+
         $this->saleDetalle = json_decode(json_encode($this->saleDetalle));
     }
 }
