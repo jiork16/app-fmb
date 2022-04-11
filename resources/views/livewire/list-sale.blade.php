@@ -239,58 +239,9 @@
             </div>
         </div>
     @endif
-    <!-- Modal -->
-    <div class="modal fade" id="modalProducto" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header row-span-2">
-                    <h5 class="modal-title col-lg-11" id="tituloModal">{{ $this->productoNombre }}</h5>
-                    <button type="button" class="btn-close col-lg-1" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <select class="form-select " name="presentacion" id="presentacion">
-                                @foreach ($tipoPresentacion as $tipo)
-                                    <option value="{{ $tipo }}">{{ $tipo }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <input type="number" id="cantidaProd" name="cantidaProd" min="1" max="100"
-                            class="col-sm-4">
-                        <div class="col-sm-3 offset-sm-1 form-check">
-                            <label class="form-check-label" for="defaultCheck1">
-                                Precio Caja?
-                            </label>
-                            <input class="form-check-input" type="checkbox" name="pvpr" id="pvpr">
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="agregar()">Guardar</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <script>
-    function agregar() {
-        var presentacion = document.getElementById('presentacion').value
-        var cantidad = document.getElementById('cantidaProd').value
-        Livewire.emit('agregar', presentacion, cantidad, $('#pvpr').is(':checked'));
-        limpiarControles();
-        Livewire.emit('setProductoSelect', 0, '', false);
-
-    }
-
-    function limpiarControles() {
-        document.getElementById("cantidaProd").defaultValue = "0";
-        $("#pvpr").prop("checked", false);
-    }
     window.addEventListener('swalAlertdialog', event => {
         Swal.fire({
             position: 'top-center',
