@@ -50,7 +50,7 @@
                         <table class="table table-sm table-hover table-striped overflow-scroll tblLayoutWidFont">
                             <thead>
                                 <tr>
-                                    <th style="vertical-align: middle; width: 2%">
+                                    <th style="vertical-align: middle; width: 5%">
                                         <a class="text-primary" href="#">
                                             #
                                         </a>
