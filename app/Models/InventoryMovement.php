@@ -26,7 +26,7 @@ class InventoryMovement extends Model
         return $query->select(DB::raw('max(inventory_movements.date_movement) AS fecha'))
             ->where('movement_id', '=', '7');
     }
-    public function scopeStock($query, $fecha, $search = '', $idProducto = 0)
+    public function scopeStock($query, $fecha, $search = '', $idProducto = 0, $orderBy = 'products.description', $orderAsc = true)
     {
         $movimientoS = InventoryMovement::join('movements', 'movements.id', '=', 'inventory_movements.movement_id')
             ->join('products', 'products.id', '=', 'inventory_movements.product_id')
@@ -66,7 +66,7 @@ class InventoryMovement extends Model
                 'inventory_movements.product_id',
                 'inventory_movements.date_movement',
             );
-        return $query->join('products', 'products.id', '=', 'inventory_movements.product_id')
+        $query = $query->join('products', 'products.id', '=', 'inventory_movements.product_id')
             ->joinSub($movimientoS, 'movimientoS', function ($join) {
                 $join->on('inventory_movements.product_id', '=', 'movimientoS.product_id');
             })
@@ -74,6 +74,10 @@ class InventoryMovement extends Model
                 $join->on('inventory_movements.product_id', '=', 'movimientoR.product_id');
             })->select(
                 'inventory_movements.product_id',
+                'products.pvpr',
+                'products.pvpu',
+                'products.pvpc',
+                'products.description',
                 DB::raw('(movimientoS.sunit - movimientoR.runit) AS totalStockUnidad, (movimientoS.sbox - movimientoR.rbox) AS totalStockCaja')
             )
             ->where(function ($query2) use ($search) {
@@ -81,7 +85,11 @@ class InventoryMovement extends Model
                     ->orWhere('products.utility', 'like', '%' . $search . '%');
             })->groupBy(
                 'inventory_movements.product_id',
+                'products.pvpr',
+                'products.pvpu',
+                'products.pvpc',
+                'products.description',
             );
-        //return $query->where('FECHA_GENERADO', '<=', date_format(Carbon::parse($fecha)->endOfDay(), 'd/m/Y H:i:s'));
+        return $query->orderBy($orderBy, $orderAsc ? 'asc' : 'desc');
     }
 }
