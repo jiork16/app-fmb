@@ -26,7 +26,7 @@ class InventoryMovement extends Model
         return $query->select(DB::raw('max(inventory_movements.date_movement) AS fecha'))
             ->where('movement_id', '=', '7');
     }
-    public function scopeStock($query, $fecha, $search = '', $idProducto = 0, $orderBy = 'products.description', $orderAsc = true)
+    public function scopeStock($query, $fecha, $search = 'sal a', $idProducto = 0, $orderBy = 'products.description', $orderAsc = true)
     {
         $movimientoS = InventoryMovement::join('movements', 'movements.id', '=', 'inventory_movements.movement_id')
             ->join('products', 'products.id', '=', 'inventory_movements.product_id')
@@ -35,7 +35,7 @@ class InventoryMovement extends Model
                 ['products.status', '=', true],
                 ['inventory_movements.date_movement', '>=', $fecha],
                 ['inventory_movements.status', '=', true]
-            ])->when($idProducto > 0, function ($query)  use ($idProducto) {                    //  if role_id not equals to 2
+            ])->when($idProducto > 0, function ($query)  use ($idProducto) {
                 return $query->where('inventory_movements.product_id', $idProducto);
             })
             ->select(
@@ -46,7 +46,6 @@ class InventoryMovement extends Model
                 'inventory_movements.product_id',
                 'inventory_movements.date_movement',
             );
-
 
         $movimientoR = InventoryMovement::join('movements', 'movements.id', '=', 'inventory_movements.movement_id')
             ->join('products', 'products.id', '=', 'inventory_movements.product_id')
@@ -70,7 +69,7 @@ class InventoryMovement extends Model
             ->joinSub($movimientoS, 'movimientoS', function ($join) {
                 $join->on('inventory_movements.product_id', '=', 'movimientoS.product_id');
             })
-            ->joinSub($movimientoR, 'movimientoR', function ($join) {
+            ->leftJoinSub($movimientoR, 'movimientoR', function ($join) {
                 $join->on('inventory_movements.product_id', '=', 'movimientoR.product_id');
             })->select(
                 'inventory_movements.product_id',
