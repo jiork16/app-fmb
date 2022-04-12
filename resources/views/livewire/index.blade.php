@@ -5,7 +5,7 @@
         <article class="full-width tile">
             <div class="tile-text">
                 <span class="text-condensedLight">
-                    71<br>
+                    {{ $totales['proveedores'] }}<br>
                     <small>Clientes</small>
                 </span>
             </div>
@@ -14,7 +14,7 @@
         <article class="full-width tile">
             <div class="tile-text">
                 <span class="text-condensedLight">
-                    7<br>
+                    {{ $totales['proveedores'] }}<br>
                     <small>Proveedores</small>
                 </span>
             </div>
@@ -23,7 +23,7 @@
         <article class="full-width tile">
             <div class="tile-text">
                 <span class="text-condensedLight">
-                    9<br>
+                    {{ $totales['tipoMedicamento'] }}<br>
                     <small>Categorias</small>
                 </span>
             </div>
@@ -32,7 +32,7 @@
         <article class="full-width tile">
             <div class="tile-text">
                 <span class="text-condensedLight">
-                    9<br>
+                    {{ $totales['laboratorios'] }}<br>
                     <small>Laboratorios</small>
                 </span>
             </div>
@@ -41,7 +41,7 @@
         <article class="full-width tile">
             <div class="tile-text">
                 <span class="text-condensedLight">
-                    121<br>
+                    {{ $totales['productos'] }}<br>
                     <small>Productos</small>
                 </span>
             </div>
@@ -50,7 +50,7 @@
         <article class="full-width tile">
             <div class="tile-text">
                 <span class="text-condensedLight">
-                    47<br>
+                    {{ $totales['ventas'] }}<br>
                     <small>Sales</small>
                 </span>
             </div>

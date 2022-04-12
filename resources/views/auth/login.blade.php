@@ -50,11 +50,11 @@
 
             <div class="flex items-center justify-end mt-4">
                 <button id="SingIn" class="mdl-button mdl-js-button mdl-js-ripple-effect"
-                    style="color: #3F51B5; float:right;">
+                    style="color: #177d57; float:right;">
                     Ingresar <i class="zmdi zmdi-mail-send"></i>
                 </button>
                 @if (Route::has('password.request'))
-                    <a style="color: #3F51B5; float:right;" href="{{ route('password.request') }}">
+                    <a style="color: #177d57; float:right;" href="{{ route('password.request') }}">
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif

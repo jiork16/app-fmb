@@ -71,7 +71,7 @@ html, body{
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-color: #fff;
-	background-image: url(../img/fontLogin.jpg);
+	background-image: url(../img/Farmacia.jpg);
 }
 .mdl-list__item-avatar{
 	line-height: 40px;
@@ -174,7 +174,7 @@ html, body{
     height: 45px;
     line-height: 45px;
     color: #fff;
-    background-color: #3F51B5;
+    background-color: #177d57;
     box-sizing: border-box;
 }
 .NotificationArea-title i{
@@ -272,11 +272,11 @@ html, body{
 	left: 50%;
 	transform: translate(-50%, -50%);
 	border-radius: 5px;
-	color: #3F51B5;
+	color: #46977b;
 }
 /*=============Estilos barra superior*/
 .navBar{
-	background-color: #3F51B5;
+	background-color: #177d57;
 	height: 45px;
 	position: absolute;
 	top: 0;
@@ -393,7 +393,7 @@ html, body{
 	color: #fff;
 	width: 100%;
 	font-size: 25px;
-	background-color: #3F51B5;
+	background-color: #177d57;
 }
 .navLateral-body-logo .zmdi-close{
 	width: 0;
@@ -450,7 +450,7 @@ html, body{
 	transition: all .3s ease-in-out;
 }
 .menu-principal li a:hover{
-	color: #3F51B5;
+	color: #177d57;
 }
 .menu-principal li a div.navLateral-body-cl,
 .menu-principal li a div.navLateral-body-cr{
@@ -477,7 +477,7 @@ html, body{
 	transition: all .3s ease-in-out;
 }
 .sub-menu-options li a{ border-left: 3px solid transparent; }
-.sub-menu-options li a:hover{ border-left: 3px solid #3F51B5; }
+.sub-menu-options li a:hover{ border-left: 3px solid #177d57; }
 .sub-menu-options-show{
 	height: auto !important;
 	overflow-y: auto !important;
@@ -511,7 +511,7 @@ html, body{
 	margin-bottom: 20px;
 	display: inline-block;
 }
-.tile:hover .tile-text span{ color: #3F51B5; }
+.tile:hover .tile-text span{ color: #177d57; }
 .tile:hover .tile-icon{
 	color: rgba(0,191,238,.3);
 	transform: scale(1.5) translate(-10px, -10px);
@@ -571,7 +571,7 @@ html, body{
   left: 18px;
   height: 100%;
   width: 4px;
-  background-color: #3F51B5;
+  background-color: #177d57;
 }
 .timeline-c-box{
   position: relative;
@@ -596,7 +596,7 @@ html, body{
   height: 40px;
   border-radius: 50%;
   border: 3px solid #fff;
-  background-color: #3F51B5;
+  background-color: #177d57;
 }
 .timeline-c-box-icon i{
   display: block;
