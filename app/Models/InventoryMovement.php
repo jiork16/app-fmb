@@ -26,7 +26,7 @@ class InventoryMovement extends Model
         return $query->select(DB::raw('max(inventory_movements.date_movement) AS fecha'))
             ->where('movement_id', '=', '7');
     }
-    public function scopeStock($query, $fecha, $search = 'sal a', $idProducto = 0, $orderBy = 'products.description', $orderAsc = true)
+    public function scopeStock($query, $fecha, $search = '', $idProducto = 0, $orderBy = 'products.description', $orderAsc = true)
     {
         $movimientoS = InventoryMovement::join('movements', 'movements.id', '=', 'inventory_movements.movement_id')
             ->join('products', 'products.id', '=', 'inventory_movements.product_id')
