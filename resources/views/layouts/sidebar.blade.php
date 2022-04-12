@@ -32,7 +32,7 @@
                      </a>
                  </li>
                  <li class="full-width divider-menu-h"></li>
-                 <li class="full-width">
+                 {{-- <li class="full-width">
                      <a class="full-width btn-subMenu">
                          <div class="navLateral-body-cl">
                              <i class="zmdi zmdi-case"></i>
@@ -129,7 +129,7 @@
                              </a>
                          </li>
                      </ul>
-                 </li>
+                 </li> --}}
                  <li class="full-width divider-menu-h"></li>
                  <li class="full-width">
                      <a href="/product" class="full-width">
@@ -177,7 +177,7 @@
                          </li>
                      </ul>
                  </li>
-                 <li class="full-width divider-menu-h"></li>
+                 {{-- <li class="full-width divider-menu-h"></li>
                  <li class="full-width">
                      <a href="inventory.html" class="full-width">
                          <div class="navLateral-body-cl">
@@ -187,7 +187,7 @@
                              INVENTORY
                          </div>
                      </a>
-                 </li>
+                 </li> --}}
                  <li class="full-width divider-menu-h"></li>
                  {{-- <li class="full-width">
                      <a href="#!" class="full-width btn-subMenu">
