@@ -218,7 +218,7 @@
                                                 {{ $detalle->unit }}
                                             </td>
                                             <td class="text-right">
-                                                {{ $detalle->discount }}
+                                                {{ $detalle->price }}
                                             </td>
                                             <td class="text-right">{{ $detalle->sub_total }}</td>
                                             <td class="text-right">{{ $detalle->discount }}</td>
@@ -237,39 +237,6 @@
     @endif
 </div>
 
-<script>
-    function agregar() {
-        var presentacion = document.getElementById('presentacion').value
-        var cantidad = document.getElementById('cantidaProd').value
-        Livewire.emit('agregar', presentacion, cantidad, $('#pvpr').is(':checked'));
-        limpiarControles();
-        Livewire.emit('setProductoSelect', 0, '', false);
-
-    }
-
-    function limpiarControles() {
-        document.getElementById("cantidaProd").defaultValue = "0";
-        $("#pvpr").prop("checked", false);
-    }
-    window.addEventListener('swalAlertdialog', event => {
-        Swal.fire({
-            position: 'top-center',
-            icon: event.detail.icon,
-            title: event.detail.title,
-            showConfirmButton: false,
-            timer: 1200
-        })
-    })
-    window.addEventListener('showmodal', event => {
-        $('#modalProducto').appendTo("body");
-        if (event.detail.show) {
-            $("#modalProducto").modal('show');
-        } else {
-            $("#modalProducto").modal('hide');
-        }
-        document.getElementById("cantidaProd").defaultValue = "1";
-    })
-</script>
 <style>
     .tblLayoutWidFont {
         table-layout: fixed;

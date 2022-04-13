@@ -85,7 +85,6 @@ class ListSale extends Component
             $object->producto       =   $data->producto;
             array_push($this->saleDetalle, (array) $object);
         }
-
         $this->saleDetalle = json_decode(json_encode($this->saleDetalle));
     }
 }

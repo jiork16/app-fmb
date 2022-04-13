@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Resources\InventoryMovementResource;
 
-use function PHPUnit\Framework\isNull;
-
 class Sale extends Component
 {
     use WithPagination, SortBy;
@@ -86,11 +84,14 @@ class Sale extends Component
     public float $totalDescuento = 0.00;
     public int $idproductoSelect = 0;
     public float $subTotal = 0.00;
-    protected $listeners = ['agregar' => 'agregarCarrito', 'setProductoSelect'];
+    public int $cantidaProducto = 1;
+    public $presentacion = "";
+    public bool $siPvpr = false;
+    protected $listeners = ['agregar' => 'agregarCarrito', 'setProduct' => 'setProductoSelect'];
     public $carroVenta = [];
     public function render()
     {
-        session()->flash('Modulo', 'Venta');
+        session()->flash('Modulo', 'Venta2');
         $this->fechMaxInvent = InventoryMovement::maxiInvent()->get()[0]->fecha;
         $data = QueryBuilder::for(InventoryMovement::stock($this->fechMaxInvent, $this->search, 0, $this->orderBy, $this->orderAsc))->paginate($this->perPage);
         $inventarioData = InventoryMovementResource::collection(
@@ -101,39 +102,52 @@ class Sale extends Component
 
         return view('livewire.sales.sales', ['inventarioData' =>  $inventarioData, 'carroVenta' => $this->carroVenta]);
     }
-    public function agregarCarrito($presentacion, $cantidad, $siPvpr)
+    public function agregarCarrito()
     {
-        $object = new stdClass;
-        $datoProducto = InventoryMovementResource::collection(
-            QueryBuilder::for(InventoryMovement::stock($this->fechMaxInvent, $this->search, $this->idproductoSelect))->get()
-        )->response()->getData();
-        foreach ($datoProducto->data as $producto) {
-            $descuento              = $producto->producto->porcen_discount;
-            $pvu                    = $descuento > 0 ? $producto->producto->pvpu_discount : $producto->producto->pvpu;
-            $pvc                    = $descuento > 0 ? $producto->producto->pvpc_discount : $producto->producto->pvpc;
-            $object->idCarro        = uniqid(true);
-            $object->id             = $producto->producto->id;
-            $object->description    = $producto->producto->description;
-            $object->pvpu           = $producto->producto->pvpu;
-            $object->pvpc           = $producto->producto->pvpc;
-            $object->pvpr           = $producto->producto->pvpr;
-            $object->pvpud          = $pvu;
-            $object->pvpcd          = $pvc;
-            $object->cantidad       = $cantidad;
-            $object->unidadProducto = $producto->producto->unit;
-            if ($siPvpr) {
-                $object->precio     =   $object->pvpr;
-                $object->total      =   $cantidad * $object->pvpr;
-            } else {
-                $object->precio     = ($presentacion == "UNIDAD") ? $pvu : $pvc;
-                $object->total      = ($presentacion == "UNIDAD") ? $cantidad *  $pvu : $cantidad *   $pvc;
+        if ($this->presentacion != "") {
+            $object = new stdClass;
+            $datoProducto = InventoryMovementResource::collection(
+                QueryBuilder::for(InventoryMovement::stock($this->fechMaxInvent, $this->search, $this->idproductoSelect))->get()
+            )->response()->getData();
+            foreach ($datoProducto->data as $producto) {
+                $descuento              = $producto->producto->porcen_discount;
+                $pvu                    = $descuento > 0 ? $producto->producto->pvpu_discount : $producto->producto->pvpu;
+                $pvc                    = $descuento > 0 ? $producto->producto->pvpc_discount : $producto->producto->pvpc;
+                $object->idCarro        = uniqid(true);
+                $object->id             = $producto->producto->id;
+                $object->description    = $producto->producto->description;
+                $object->pvpu           = $producto->producto->pvpu;
+                $object->pvpc           = $producto->producto->pvpc;
+                $object->pvpr           = $producto->producto->pvpr;
+                $object->pvpud          = $pvu;
+                $object->pvpcd          = $pvc;
+                $object->cantidad       = $this->cantidaProducto;
+                $object->unidadProducto = $producto->producto->unit;
+                if ($this->siPvpr) {
+                    $object->precio     =   $object->pvpr;
+                    $object->total      =  $this->cantidaProducto * $object->pvpr;
+                } else {
+                    $object->precio     = ($this->presentacion == "UNIDAD") ? $pvu : $pvc;
+                    $object->total      = ($this->presentacion == "UNIDAD") ? $this->cantidaProducto *  $pvu : $this->cantidaProducto *   $pvc;
+                }
+                $object->descuento = 0;
+                if ($descuento > 0) {
+                    $object->descuento  = ($this->presentacion == "UNIDAD")  ? $pvu : $pvc;
+                }
+                $object->siPvpr         = $this->siPvpr;
+                $object->presentacion   = $this->presentacion;
             }
-            $object->descuento      = ($presentacion == "UNIDAD") ? $pvu : $pvc;
-            $object->siPvpr         = $siPvpr;
-            $object->presentacion   = $presentacion;
+            array_push($this->carroVenta, (array) $object);
+            $this->calcularTotalCarrito();
+            $this->cantidaProducto = 1;
+        } else {
+            $this->dispatchBrowserEvent('swalAlertdialog', [
+                'title' => 'Presentacion',
+                'icon' => 'warning',
+                'confirmButtonText' => 'OK'
+            ]);
         }
-        array_push($this->carroVenta, (array) $object);
-        $this->calcularTotalCarrito();
+        $this->presentacion = "";
     }
     public function cambioRegistroCarro($idCarro, $tipoCambio, $nuevoValor)
     {
@@ -227,7 +241,7 @@ class Sale extends Component
             }
         }
     }
-    public function relizarCompra()
+    public function relizarVenta()
     {
         foreach ($this->carroVenta as $carroVenta) {
             $fillableMovimiento = [
@@ -245,7 +259,7 @@ class Sale extends Component
             "user_id"           => Auth::user()->id,
             "form_payment_id"   => 1,
             "sub_total"         => $this->subTotal,
-            "discount"          => $this->subTotal - $this->totalDescuento,
+            "discount"          => $this->totalDescuento > 0 ? ($this->subTotal - $this->totalDescuento) : 0,
             "base_iva_0"        => 0,
             "base_iva_12"       => 0,
             "total"             => $this->totalCarrito,
@@ -254,6 +268,7 @@ class Sale extends Component
         $sale = ModelsSale::create($fillableSale);
         foreach ($this->carroVenta as $carroVenta) {
             $descuento  = 0;
+            $precio   = 0;
             if ($carroVenta["siPvpr"] == false) {
                 $precio             = $carroVenta["presentacion"] == "UNIDAD" ?  $carroVenta["pvpu"] : $carroVenta["pvpc"];
                 if ($carroVenta["descuento"] > 0) {
@@ -268,7 +283,7 @@ class Sale extends Component
                 "unit"          => $carroVenta["cantidad"],
                 "price"         => $precio,
                 "sub_total"     => $precio * $carroVenta["cantidad"],
-                "discount"      => ($precio * $carroVenta["cantidad"]) - ($descuento * $carroVenta["cantidad"]),
+                "discount"      => $descuento > 0 ? (($precio * $carroVenta["cantidad"]) - ($descuento * $carroVenta["cantidad"])) : 0,
                 "base_iva_0"    => 0,
                 "base_iva_12"   => 0,
                 "total"         => $carroVenta["total"],
@@ -290,12 +305,8 @@ class Sale extends Component
             ]);
         }
     }
-    public function setProductoSelect($idproducto, $producto, $show = true)
+    public function setProductoSelect($idproducto)
     {
         $this->idproductoSelect = $idproducto;
-        $this->dispatchBrowserEvent('showmodal', ['show' => $show, "productoName" => $producto]);
-        if ($show == false) {
-            usleep(50); # Wait...
-        }
     }
 }

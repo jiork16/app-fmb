@@ -113,9 +113,8 @@
                                         <td class="text-right">
                                             {{ $producto->stockCaja }}</td>
                                         <td>
-
                                             <button class="btn btn-sm btn-primary btnDisplayBlocRela" id="btnAgregar"
-                                                wire:click="$emitUp('setProductoSelect',{{ $producto->producto->id }},'{{ $producto->producto->description }}')">Agregar</button>
+                                                onclick="modal({{ $producto->producto->id }},'{{ $producto->producto->description }}')">Agregar</button>
 
                                         </td>
                                     </tr>
@@ -158,7 +157,7 @@
                             <button wire:click.prevent="limpiarCarrito()">Limpiar Carrito</button>
                         </div>
                         <div class="col-sm-6">
-                            <button wire:click.prevent="relizarCompra()">Realizar Compra</button>
+                            <button wire:click.prevent="relizarVenta()">Realizar Venta</button>
                         </div>
                     </div>
                     <div class="row table-responsive ">
@@ -201,26 +200,31 @@
                             <tbody class="text-center">
                                 @foreach ($carroVenta as $carro)
                                     <tr>
-
                                         <td class="text-right">{{ $carro['id'] }} </td>
                                         <td class="text-left">{{ $carro['description'] }}</td>
                                         <td class="text-right">
                                             <select class="form-select" aria-label="Default select example"
-                                                name="prsentacion{{ $carro['id'] }}"
-                                                id="prsentacion{{ $carro['id'] }}"
-                                                wire:change="cambioRegistroCarro('{{ $carro['idCarro'] }}',1,document.getElementById('prsentacion{{ $carro['id'] }}').value)"
+                                                name="prsentacion{{ $carro['idCarro'] }}"
+                                                id="prsentacion{{ $carro['idCarro'] }}"
+                                                wire:change="cambioRegistroCarro('{{ $carro['idCarro'] }}',1,document.getElementById('prsentacion{{ $carro['idCarro'] }}').value)"
                                                 style="line-height: 15px;">
-                                                @foreach ($tipoPresentacion as $tipo)
-                                                    <option value="{{ $tipo }}">{{ $tipo }}
-                                                    </option>
+                                                @foreach ($tipoPresentacion as $tipoP)
+                                                    @if ($carro['presentacion'] == $tipoP)
+                                                        <option value="{{ $tipoP }}" selected>
+                                                            {{ $tipoP }}
+                                                        </option>
+                                                    @else
+                                                        <option value="{{ $tipoP }}">{{ $tipoP }}
+                                                        </option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </td>
                                         <td class="text-right">
-                                            <input type="number" id="cantidaProd{{ $carro['id'] }}"
-                                                name="cantidaProd{{ $carro['id'] }}" min="1" max="100"
+                                            <input type="number" id="cantidaProd{{ $carro['idCarro'] }}"
+                                                name="cantidaProd{{ $carro['idCarro'] }}" min="1" max="100"
                                                 value="{{ $carro['cantidad'] }}"
-                                                wire:change="cambioRegistroCarro('{{ $carro['idCarro'] }}',2,document.getElementById('cantidaProd{{ $carro['id'] }}').value)"
+                                                wire:change="cambioRegistroCarro('{{ $carro['idCarro'] }}',2,document.getElementById('cantidaProd{{ $carro['idCarro'] }}').value)"
                                                 style="width: 50px">
                                         </td>
                                         <td class="text-left">
@@ -231,9 +235,10 @@
                                                         Precio Caja?
                                                     </label>
                                                     <input class="form-check-input" type="checkbox"
-                                                        name="pvpr{{ $carro['id'] }}" id="pvpr{{ $carro['id'] }}"
+                                                        name="pvpr{{ $carro['idCarro'] }}"
+                                                        id="pvpr{{ $carro['idCarro'] }}"
                                                         {{ $carro['siPvpr'] ? 'checked' : '' }}
-                                                        wire:click="cambioRegistroCarro('{{ $carro['idCarro'] }}',3, ($(pvpr{{ $carro['id'] }}).is(':checked')) )"
+                                                        wire:click="cambioRegistroCarro('{{ $carro['idCarro'] }}',3, ($(pvpr{{ $carro['idCarro'] }}).is(':checked')) )"
                                                         style="padding-left: 0;">
                                                 </div>
                                                 <div class="col-4 text-left"
@@ -273,50 +278,53 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-sm-4">
-                            <select class="form-select " name="presentacion" id="presentacion">
+                        <div class="col-sm-6">
+                            <select class="form-select " name="presentacion" id="presentacion"
+                                wire:model="presentacion">
+                                <option value="">SELECCIONE UNA OPCION</option>
                                 @foreach ($tipoPresentacion as $tipo)
                                     <option value="{{ $tipo }}">{{ $tipo }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
-                        <input type="number" id="cantidaProd" name="cantidaProd" min="1" max="100"
-                            class="col-sm-4">
+                        <input type="number" wire:model="cantidaProducto" id="cantidaProducto" min="1" max="300"
+                            class="col-sm-2">
                         <div class="col-sm-3 offset-sm-1 form-check">
                             <label class="form-check-label" for="defaultCheck1">
                                 Precio Caja?
                             </label>
-                            <input class="form-check-input" type="checkbox" name="pvpr" id="pvpr">
+                            <input class="form-check-input" type="checkbox" name="pvpr" id="pvpr" wire:model="siPvpr">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="cerrarModal()">Cerrar</button>
+                    <button type="button" class="btn btn-secondary" onclick="modal(0,'')">Cerrar</button>
                     <button type="button" class="btn btn-primary" onclick="agregar()">Guardar</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <script>
+    function modal(idProducto, dProducto) {
+        $('#modalProducto').appendTo("body");
+        if ($('#modalProducto').is(':visible') == false) {
+            document.getElementById('productoName').innerHTML = dProducto;
+            document.getElementById('cantidaProducto').value = 1;
+            let element = document.getElementById('presentacion');
+            element.value = "";
+            $("#modalProducto").modal('show');
+            Livewire.emitTo('sale', 'setProduct', idProducto);
+        } else {
+            $("#modalProducto").modal('hide');
+        }
+    }
+
     function agregar() {
-        var presentacion = document.getElementById('presentacion').value
-        var cantidad = document.getElementById('cantidaProd').value
-        Livewire.emit('agregar', presentacion, cantidad, $('#pvpr').is(':checked'));
-        limpiarControles();
-        Livewire.emit('setProductoSelect', 0, '', false);
-
-    }
-
-    function cerrarModal() {
-        $("#modalProducto").modal('hide');
-    }
-
-    function limpiarControles() {
-        document.getElementById('cantidaProd').value = 1;
-        $("#pvpr").prop("checked", false);
+        var presentacion = document.getElementById('presentacion').value;
+        Livewire.emitTo('sale', 'agregar', $('#pvpr').is(':checked'));
+        modal(0, '');
     }
     window.addEventListener('swalAlertdialog', event => {
         Swal.fire({
@@ -326,16 +334,6 @@
             showConfirmButton: false,
             timer: 1200
         })
-    })
-    window.addEventListener('showmodal', event => {
-        $('#modalProducto').appendTo("body");
-        if (event.detail.show) {
-            document.getElementById('productoName').innerHTML = event.detail.productoName;
-            document.getElementById('cantidaProd').value = 1;
-            $("#modalProducto").modal('show');
-        } else {
-            $("#modalProducto").modal('hide');
-        }
     })
 </script>
 <style>
