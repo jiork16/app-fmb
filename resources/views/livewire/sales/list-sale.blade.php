@@ -103,7 +103,7 @@
                                             <td class="text-right">{{ $venta->date_sale }}</td>
                                             <td>
                                                 <button class="btn btn-sm btn-primary btnDisplayBlocRela"
-                                                    id="btnDetalle"
+                                                    id="btnDetalle{{ $venta->id }}"
                                                     wire:click="obtenerDetalle({{ $venta->id }})">Detalle</button>
                                             </td>
                                         </tr>

@@ -50,7 +50,7 @@ class ListSale extends Component
     public function render()
     {
         session()->flash('Modulo', 'Reporte Venta');
-        $data = QueryBuilder::for(Sale::sales($this->startDate, $this->endDate))->paginate(10);
+        $data = QueryBuilder::for(Sale::sales($this->startDate, $this->endDate))->paginate($this->perPage);
         $saleDataP =  SaleResource::collection(
             $data
         )->response()->getData();
