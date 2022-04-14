@@ -50,55 +50,35 @@
                         <table class="table table-sm table-hover table-striped overflow-scroll tblLayoutWidFont">
                             <thead>
                                 <tr>
-                                    <th style="vertical-align: middle; width: 5%">
-                                        <a class="text-primary" href="#">
-                                            #
-                                        </a>
+                                    <th class="text-primary" style="vertical-align: middle; width: 5%">
+                                        #
                                     </th>
-                                    <th style="vertical-align: middle; width: 12%">
-                                        <a class="text-primary" href="#">
-                                            Cliente
-                                        </a>
+                                    <th class="text-primary" style="vertical-align: middle; width: 12%">
+                                        Cliente
                                     </th>
-                                    <th style=" vertical-align: middle; width: 12%">
-                                        <a class="text-primary" href="#">
-                                            Usuario/Vendedor
-                                        </a>
+                                    <th class="text-primary" style=" vertical-align: middle; width: 12%">
+                                        Usuario/Vendedor
                                     </th>
-                                    <th style="vertical-align: middle;  width: 10%">
-                                        <a class="text-primary" href="#">
-                                            Forma de Pago
-                                        </a>
+                                    <th class="text-primary" style="vertical-align: middle;  width: 10%">
+                                        Forma de Pago
                                     </th>
-                                    <th style="vertical-align: middle; ">
-                                        <a class="text-primary" href="#">
-                                            SubTotal
-                                        </a>
+                                    <th class="text-primary" style="vertical-align: middle; ">
+                                        SubTotal
                                     </th>
-                                    <th style="vertical-align: middle;">
-                                        <a class="text-primary" href="#">
-                                            Descuento
-                                        </a>
+                                    <th class="text-primary" style="vertical-align: middle;">
+                                        Descuento
                                     </th>
-                                    <th style="vertical-align: middle;">
-                                        <a class="text-primary" href="#">
-                                            Base IVA 0
-                                        </a>
+                                    <th class="text-primary" style="vertical-align: middle;">
+                                        Base IVA 0
                                     </th>
-                                    <th style="vertical-align: middle;">
-                                        <a class="text-primary" href="#">
-                                            Base IVA 12
-                                        </a>
+                                    <th class="text-primary" style="vertical-align: middle;">
+                                        Base IVA 12
                                     </th>
-                                    <th style="vertical-align: middle;">
-                                        <a class="text-primary" href="#">
-                                            Total
-                                        </a>
+                                    <th class="text-primary" style="vertical-align: middle;">
+                                        Total
                                     </th>
-                                    <th style="vertical-align: middle;">
-                                        <a class="text-primary" href="#">
-                                            Fecha Venta
-                                        </a>
+                                    <th class="text-primary" style="vertical-align: middle;">
+                                        Fecha Venta
                                     </th>
                                     <th style="vertical-align: middle; width: 10%"></th>
                                 </tr>
@@ -167,45 +147,29 @@
                             <table class="table table-sm table-hover table-striped overflow-scroll tblLayoutWidFont">
                                 <thead>
                                     <tr>
-                                        <th style="vertical-align: middle">
-                                            <a class="text-primary" href="#">
-                                                Producto
-                                            </a>
+                                        <th class="text-primary" style="vertical-align: middle">
+                                            Producto
                                         </th>
-                                        <th style="vertical-align: middle; width: 10%">
-                                            <a class="text-primary" href="#">
-                                                Unidad
-                                            </a>
+                                        <th class="text-primary" style="vertical-align: middle; width: 10%">
+                                            Unidad
                                         </th>
-                                        <th style=" vertical-align: middle; width: 10%">
-                                            <a class="text-primary" href="#">
-                                                Precio
-                                            </a>
+                                        <th class="text-primary" style=" vertical-align: middle; width: 10%">
+                                            Precio
                                         </th>
-                                        <th style="vertical-align: middle; width: 10%">
-                                            <a class="text-primary" href="#">
-                                                SubTotal
-                                            </a>
+                                        <th class="text-primary" style="vertical-align: middle; width: 10%">
+                                            SubTotal
                                         </th>
-                                        <th style="vertical-align: middle; width: 10%">
-                                            <a class="text-primary" href="#">
-                                                Descuento
-                                            </a>
+                                        <th class="text-primary" style="vertical-align: middle; width: 10%">
+                                            Descuento
                                         </th>
-                                        <th style="vertical-align: middle; width: 10%">
-                                            <a class="text-primary" href="#">
-                                                Base IVA 0
-                                            </a>
+                                        <th class="text-primary" style="vertical-align: middle; width: 10%">
+                                            Base IVA 0
                                         </th>
-                                        <th style="vertical-align: middle; width: 10%">
-                                            <a class="text-primary" href="#">
-                                                Base IVA 12
-                                            </a>
+                                        <th class="text-primary" style="vertical-align: middle; width: 10%">
+                                            Base IVA 12
                                         </th>
-                                        <th style="vertical-align: middle; width: 10%">
-                                            <a class="text-primary" href="#">
-                                                Total
-                                            </a>
+                                        <th class="text-primary" style="vertical-align: middle; width: 10%">
+                                            Total
                                         </th>
                                     </tr>
                                 </thead>
@@ -241,7 +205,10 @@
     .tblLayoutWidFont {
         table-layout: fixed;
         width: 1900px;
-        font-size: 1em
+        font-size: 1em;
+        --bs-table-hover-color: #177d57;
+        --bs-table-hover-bg: #177d5721;
+        height: 10px;
     }
 
     .btnDisplayBlocRela {

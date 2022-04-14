@@ -1,4 +1,4 @@
-<div class="mdl-grid">
+<div class="mdl-grid" style="padding-top: 5px;">
     <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
         <div class="card">
             <div class="card-body">
@@ -20,72 +20,51 @@
                         <input wire:model="search" class="form-control" type="text" placeholder="Buscar Producto...">
                     </div>
                 </div>
-                <div class="row table-responsive">
-
-                    <table class="table table-sm table-hover table-striped overflow-scroll tblLayoutWidFont">
+                <div class="row table-responsive" style="height: 300px;overflow: scroll;">
+                    <table class="table table-striped table-sm table-hover tblLayoutWidFont">
                         <thead>
                             <tr>
-                                <th style="vertical-align: middle; width: 5%">
-                                    <a class="text-primary">
-                                        #
-                                    </a>
+                                <th class="text-primary" style="vertical-align: middle; width: 5%">
+                                    #
                                 </th>
-                                <th style="vertical-align: middle;">
-                                    <a class="text-primary" wire:click.prevent="sortBy('products.description')"
-                                        role="button">
-                                        Producto
-                                        @include('includes._sort-icon', [
-                                            'field' => 'products.description',
-                                        ])
-                                    </a>
+                                <th class="text-primary" style="vertical-align: middle;" wire:click.prevent="
+                                    sortBy('products.description')" role="button">
+                                    Producto
+                                    @include('includes._sort-icon', [
+                                        'field' => 'products.description',
+                                    ])
                                 </th>
-                                <th style=" vertical-align: middle; width: 5%"
+                                <th class="text-primary" style=" vertical-align: middle; width: 6%"
                                     wire:click.prevent="sortBy('products.pvpu')" role="button">
-                                    <a class="text-primary" href="">
-                                        PVPU
-                                        @include('includes._sort-icon', [
-                                            'field' => 'products.pvpu',
-                                        ])
-                                    </a>
+                                    PVPU
+                                    @include('includes._sort-icon', [
+                                        'field' => 'products.pvpu',
+                                    ])
                                 </th>
-                                <th style="vertical-align: middle; width: 5%"
+                                <th class="text-primary" style="vertical-align: middle; width: 6%"
                                     wire:click.prevent="sortBy('products.pvpc')" role="button">
-                                    <a class="text-primary">
-                                        PVPC
-                                        @include('includes._sort-icon', [
-                                            'field' => 'products.pvpc',
-                                        ])
-                                    </a>
+                                    PVPC
+                                    @include('includes._sort-icon', [
+                                        'field' => 'products.pvpc',
+                                    ])
                                 </th>
-                                <th style="vertical-align: middle; width: 5%">
-                                    <a class="text-primary">
-                                        PVPR
-                                    </a>
+                                <th class="text-primary" style="vertical-align: middle; width: 5%">
+                                    PVPR
                                 </th>
-                                <th style="vertical-align: middle; width: 10%">
-                                    <a class="text-primary">
-                                        Descuento
-                                    </a>
+                                <th class="text-primary" style="vertical-align: middle; width: 10%">
+                                    Descuento
                                 </th>
-                                <th style="vertical-align: middle; width: 15%">
-                                    <a class="text-primary">
-                                        Laboratorio
-                                    </a>
+                                <th class="text-primary" style="vertical-align: middle; width: 15%">
+                                    Laboratorio
                                 </th>
-                                <th style="vertical-align: middle;">
-                                    <a class="text-primary">
-                                        Utilidad
-                                    </a>
+                                <th class="text-primary" style="vertical-align: middle;">
+                                    Utilidad
                                 </th>
-                                <th style="vertical-align: middle; width: 6%">
-                                    <a class="text-primary">
-                                        Stock<br>Unidad
-                                    </a>
+                                <th class="text-primary" style="vertical-align: middle; width: 6%">
+                                    Stock<br>Unidad
                                 </th>
-                                <th style="vertical-align: middle; width: 5%">
-                                    <a class="text-primary">
-                                        Stock<br>Caja
-                                    </a>
+                                <th class="text-primary" style="vertical-align: middle; width: 5%">
+                                    Stock<br>Caja
                                 </th>
                                 <th style="vertical-align: middle; width: 10%"></th>
                             </tr>
@@ -106,7 +85,8 @@
                                         <td class="actions">
                                             {{ $producto->laboratorio->name }}
                                         </td>
-                                        <td class="text-sm textJustificado">{{ $producto->producto->utility }}
+                                        <td class="text-sm textJustificado" style="font-size: 11px">
+                                            {{ $producto->producto->utility }}
                                         </td>
                                         <td class="text-right">
                                             {{ $producto->stockUnidad }}</td>
@@ -132,6 +112,53 @@
                                 </tr>
                             @endif
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th class="text-primary" style="vertical-align: middle; width: 5%">
+                                    #
+                                </th>
+                                <th class="text-primary" style="vertical-align: middle;" wire:click.prevent="
+                                    sortBy('products.description')" role="button">
+                                    Producto
+                                    @include('includes._sort-icon', [
+                                        'field' => 'products.description',
+                                    ])
+                                </th>
+                                <th class="text-primary" style=" vertical-align: middle; width: 6%"
+                                    wire:click.prevent="sortBy('products.pvpu')" role="button">
+                                    PVPU
+                                    @include('includes._sort-icon', [
+                                        'field' => 'products.pvpu',
+                                    ])
+                                </th>
+                                <th class="text-primary" style="vertical-align: middle; width: 6%"
+                                    wire:click.prevent="sortBy('products.pvpc')" role="button">
+                                    PVPC
+                                    @include('includes._sort-icon', [
+                                        'field' => 'products.pvpc',
+                                    ])
+                                </th>
+                                <th class="text-primary" style="vertical-align: middle; width: 5%">
+                                    PVPR
+                                </th>
+                                <th class="text-primary" style="vertical-align: middle; width: 10%">
+                                    Descuento
+                                </th>
+                                <th class="text-primary" style="vertical-align: middle; width: 15%">
+                                    Laboratorio
+                                </th>
+                                <th class="text-primary" style="vertical-align: middle;">
+                                    Utilidad
+                                </th>
+                                <th class="text-primary" style="vertical-align: middle; width: 6%">
+                                    Stock<br>Unidad
+                                </th>
+                                <th class="text-primary" style="vertical-align: middle; width: 5%">
+                                    Stock<br>Caja
+                                </th>
+                                <th style="vertical-align: middle; width: 10%"></th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
                 <div class="row">
@@ -160,8 +187,8 @@
                             <button wire:click.prevent="relizarVenta()">Realizar Venta</button>
                         </div>
                     </div>
-                    <div class="row table-responsive ">
-                        <table class="table table-sm table-hover table-striped overflow-scroll tblLayoutWidFont">
+                    <div class="row table-responsive" style="height: 500px;overflow: scroll;">
+                        <table class="table table-striped table-sm table-hover tblLayoutWidFont tblLayoutWidFont">
                             <thead>
                                 <tr>
                                     <th style="width: 5%">
@@ -340,7 +367,10 @@
     .tblLayoutWidFont {
         table-layout: fixed;
         width: 1900px;
-        font-size: 1em
+        font-size: 1em;
+        --bs-table-hover-color: #177d57;
+        --bs-table-hover-bg: #177d5721;
+        height: 10px;
     }
 
     .btnDisplayBlocRela {

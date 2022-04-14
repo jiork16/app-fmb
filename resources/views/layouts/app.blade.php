@@ -33,7 +33,7 @@
     @include('layouts.header')
     @include('layouts.sidebar')
     <section class="full-width pageContent">
-        <section class="full-width text-center" style="padding: 40px 0;">
+        <section class="full-width text-center" style="padding-left: 10px;height: 20px;">
             {{ $slot }}
         </section>
     </section>
@@ -64,7 +64,7 @@
             var pageContent = $('.pageContent');
             var navOption = $('.navBar-options');
             if (navLateral.hasClass('navLateral-change') && pageContent.hasClass(
-                'pageContent-change')) {
+                    'pageContent-change')) {
                 navLateral.removeClass('navLateral-change');
                 pageContent.removeClass('pageContent-change');
                 navOption.removeClass('navBar-options-change');
