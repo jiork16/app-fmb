@@ -93,7 +93,8 @@
                                         <td class="text-right">
                                             {{ $producto->stockCaja }}</td>
                                         <td>
-                                            <button class="btn btn-sm btn-primary btnDisplayBlocRela" id="btnAgregar"
+                                            <button class="btn btn-sm btn-outline-primary btnDisplayBlocRela"
+                                                id="btnAgregar"
                                                 onclick="modal({{ $producto->producto->id }},'{{ $producto->producto->description }}')">Agregar</button>
 
                                         </td>
@@ -181,14 +182,16 @@
                 <div class="card-body">
                     <div class="row mb-4">
                         <div class="col-sm-6">
-                            <button wire:click.prevent="limpiarCarrito()">Limpiar Carrito</button>
+                            <button class="btn btn-outline-secondary" wire:click.prevent="limpiarCarrito()">Limpiar
+                                Carrito</button>
                         </div>
                         <div class="col-sm-6">
-                            <button wire:click.prevent="relizarVenta()">Realizar Venta</button>
+                            <button class="btn btn-outline-success" wire:click.prevent="relizarVenta()">Realizar
+                                Venta</button>
                         </div>
                     </div>
                     <div class="row table-responsive" style="height: 500px;overflow: scroll;">
-                        <table class="table table-striped table-sm table-hover tblLayoutWidFont tblLayoutWidFont">
+                        <table class="table table-striped table-sm table-hover tblLayoutWidFont">
                             <thead>
                                 <tr>
                                     <th style="width: 5%">
@@ -279,7 +282,7 @@
                                         </td>
                                         <td>
                                             <button wire:click.prevent="eliminarCarrito('{{ $carro['idCarro'] }}')"
-                                                class="btn btn-danger">Eliminar</button>
+                                                class="btn btn-outline-danger">Eliminar</button>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -91,7 +91,7 @@ class Sale extends Component
     public $carroVenta = [];
     public function render()
     {
-        session()->flash('Modulo', 'Venta2');
+        session()->flash('Modulo', 'Venta');
         $this->fechMaxInvent = InventoryMovement::maxiInvent()->get()[0]->fecha;
         $data = QueryBuilder::for(InventoryMovement::stock($this->fechMaxInvent, $this->search, 0, $this->orderBy, $this->orderAsc))->paginate($this->perPage);
         $inventarioData = InventoryMovementResource::collection(

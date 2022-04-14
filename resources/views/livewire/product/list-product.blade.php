@@ -20,44 +20,30 @@
                         <input wire:model="search" class="form-control" type="text" placeholder="Buscar Producto...">
                     </div>
                 </div>
-                <div class="row table-responsive-sm">
-                    <table class="table table-sm table-hover table-striped overflow-scroll">
+                <div class="table-responsive-sm">
+                    <table class="table table-sm table-hover table-striped overflow-scroll tblLayoutWidFont">
                         <thead>
                             <tr>
-                                <th style="width: 1%">
-                                    <a class="text-primary" href="#">
-                                        #
-                                    </a>
+                                <th class="text-primary" style="width: 6%">
+                                    #
                                 </th>
-                                <th>
-                                    <a class="text-primary" href="#">
-                                        Producto
-                                    </a>
+                                <th class="text-primary">
+                                    Producto
                                 </th>
-                                <th style="width: 5%">
-                                    <a class="text-primary" href="#">
-                                        Precio Unitario
-                                    </a>
+                                <th class="text-primary" style="width: 8%">
+                                    Precio Unitario
                                 </th>
-                                <th style="width: 5%">
-                                    <a class="text-primary" href="#">
-                                        Precio Caja
-                                    </a>
+                                <th class="text-primary" style="width: 7%">
+                                    Precio Caja
                                 </th>
-                                <th style="width: 5%">
-                                    <a class="text-primary" href="#">
-                                        Precio Relevante
-                                    </a>
+                                <th class="text-primary" style="width: 8%">
+                                    Precio Relevante
                                 </th>
-                                <th style="width: 10%">
-                                    <a class="text-primary" href="#">
-                                        Laboratorio
-                                    </a>
+                                <th class="text-primary" style="width: 15%">
+                                    Laboratorio
                                 </th>
-                                <th style="width: 40%">
-                                    <a class="text-primary" href="#">
-                                        Utilidad
-                                    </a>
+                                <th class="text-primary" style="width: 40%">
+                                    Utilidad
                                 </th>
                             </tr>
                         </thead>
@@ -107,8 +93,9 @@
 <style>
     .tblLayoutWidFont {
         table-layout: fixed;
-        width: 1000px;
-        font-size: 1em
+        font-size: 1em;
+        --bs-table-hover-color: #177d57;
+        --bs-table-hover-bg: #177d5721;
     }
 
     .btnDisplayBlocRela {
