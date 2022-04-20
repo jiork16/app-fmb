@@ -352,7 +352,6 @@
         }
     }
     window.addEventListener('hideModal', event => {
-        var presentacion = document.getElementById('presentacion').value;
         modal(0, '');
     })
     window.addEventListener('swalAlertdialog', event => {
