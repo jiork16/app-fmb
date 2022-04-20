@@ -46,7 +46,6 @@ class InventoryMovement extends Model
                 'inventory_movements.product_id',
                 'inventory_movements.date_movement',
             );
-
         $movimientoR = InventoryMovement::join('movements', 'movements.id', '=', 'inventory_movements.movement_id')
             ->join('products', 'products.id', '=', 'inventory_movements.product_id')
             ->where([
@@ -77,7 +76,7 @@ class InventoryMovement extends Model
                 'products.pvpu',
                 'products.pvpc',
                 'products.description',
-                DB::raw('(movimientoS.sunit - movimientoR.runit) AS totalStockUnidad, (movimientoS.sbox - movimientoR.rbox) AS totalStockCaja')
+                DB::raw('(movimientoS.sunit - IFNULL(movimientoR.runit,0)) AS totalStockUnidad, (movimientoS.sbox - IFNULL(movimientoR.rbox,0)) AS totalStockCaja')
             )
             ->where(function ($query2) use ($search) {
                 $query2->where('products.description', 'like', '%' . $search . '%')
