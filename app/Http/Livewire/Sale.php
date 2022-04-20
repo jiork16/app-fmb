@@ -87,7 +87,7 @@ class Sale extends Component
     public int $cantidaProducto = 1;
     public $presentacion = "";
     public bool $siPvpr = false;
-    protected $listeners = ['agregar' => 'agregarCarrito', 'setProduct' => 'setProductoSelect'];
+    protected $listeners = [ 'setProduct' => 'setProductoSelect'];
     public $carroVenta = [];
     public function render()
     {
@@ -148,6 +148,7 @@ class Sale extends Component
             ]);
         }
         $this->presentacion = "";
+         $this->dispatchBrowserEvent('hideModal', []);
     }
     public function cambioRegistroCarro($idCarro, $tipoCambio, $nuevoValor)
     {
