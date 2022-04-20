@@ -95,8 +95,9 @@
                                         <td>
                                             <button class="btn btn-sm btn-outline-primary btnDisplayBlocRela"
                                                 id="btnAgregar"
-                                                onclick="modal({{ $producto->producto->id }},'{{ $producto->producto->description }}')">Agregar</button>
-
+                                                onclick="modal({{ $producto->producto->id }},'{{ $producto->producto->description }}')"
+                                                >Agregar
+                                            </button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -182,11 +183,11 @@
                 <div class="card-body">
                     <div class="row mb-4">
                         <div class="col-sm-6">
-                            <button class="btn btn-outline-secondary" wire:click.prevent="limpiarCarrito()">Limpiar
+                            <button class="btn btn-outline-secondary" wire:click="limpiarCarrito()" wire:loading.attr="disabled">Limpiar
                                 Carrito</button>
                         </div>
                         <div class="col-sm-6">
-                            <button class="btn btn-outline-success" wire:click.prevent="relizarVenta()">Realizar
+                            <button class="btn btn-outline-success" wire:click="relizarVenta()" wire:loading.attr="disabled">Realizar
                                 Venta</button>
                         </div>
                     </div>
@@ -330,7 +331,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onclick="modal(0,'')">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="agregar()">Guardar</button>
+                    <button type="button" class="btn btn-primary" wire:click="agregarCarrito()" wire:loading.attr="disabled">Guardar</button>
                 </div>
             </div>
         </div>
@@ -350,12 +351,10 @@
             $("#modalProducto").modal('hide');
         }
     }
-
-    function agregar() {
+    window.addEventListener('hideModal', event => {
         var presentacion = document.getElementById('presentacion').value;
-        Livewire.emitTo('sale', 'agregar', $('#pvpr').is(':checked'));
         modal(0, '');
-    }
+    })
     window.addEventListener('swalAlertdialog', event => {
         Swal.fire({
             position: 'top-center',
