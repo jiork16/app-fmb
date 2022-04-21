@@ -1,4 +1,7 @@
 <div class="mdl-grid" style="padding-top: 5px;">
+    <div wire:loading wire:target="limpiarCarrito,relizarVenta,perPage,cambioRegistroCarro,eliminarCarrito">
+        @include('components.loading-indicator')
+    </div>
     <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
         <div class="card">
             <div class="card-body">
@@ -8,7 +11,8 @@
                     </div>
                     <div class="col-lg-1 form-inline">
                         <select wire:model="perPage" class="form-control form-control-sm form-inline"
-                            style="display: inline;">
+                            style="display: inline;"
+                            >
                             <option>5</option>
                             <option>10</option>
                             <option>15</option>
@@ -330,8 +334,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="modal(0,'')">Cerrar</button>
-                    <button type="button" class="btn btn-primary" wire:click="agregarCarrito()" wire:loading.attr="disabled">Guardar</button>
+                    <button type="button" class="btn btn-primary" wire:click="agregarCarrito()" wire:loading.attr="disabled">Guardar
+                    </button>
                 </div>
             </div>
         </div>
@@ -340,7 +344,7 @@
 <script>
     function modal(idProducto, dProducto) {
         $('#modalProducto').appendTo("body");
-        if ($('#modalProducto').is(':visible') == false) {
+        if ($('#modalProducto').is(':visible') == false && idProducto!=0) {
             document.getElementById('productoName').innerHTML = dProducto;
             document.getElementById('cantidaProducto').value = 1;
             let element = document.getElementById('presentacion');
