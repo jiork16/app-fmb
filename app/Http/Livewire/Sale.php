@@ -104,7 +104,6 @@ class Sale extends Component
     }
     public function agregarCarrito()
     {
-        $this->dispatchBrowserEvent('disableButonCerrar', []);
         if ($this->presentacion != "") {
             $object = new stdClass;
             $datoProducto = InventoryMovementResource::collection(
