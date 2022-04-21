@@ -38,6 +38,7 @@
         </section>
     </section>
     @livewireScripts
+    @livewireStyles
     <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
         data-turbolinks-eval="true" data-turbo-eval="true"></script>
 
