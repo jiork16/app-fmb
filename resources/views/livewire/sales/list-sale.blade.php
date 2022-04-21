@@ -1,5 +1,5 @@
 <div class="mdl-grid">
-    <div wire:loading wire:target="startDate,endDate,perPage,obtenerDetalle">
+    <div wire:loading wire:target="startDate,endDate,perPage,obtenerDetalle,previousPage,nextPage,gotoPage">
         @include('components.loading-indicator')
     </div>
     <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
