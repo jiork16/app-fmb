@@ -56,16 +56,9 @@ class ListSale extends Component
         )->response()->getData();
 
         $saleDataP->paginate = $data;
-        //$this->obtenerVemtaTotal($saleDataP);
+        $this->totalVendido = 0;
         $this->totalVendido = Sale::totalVendido($this->startDate, $this->endDate)->get()[0]->totalVendido;
         return view('livewire.sales.list-sale', ['saleData' => $saleDataP, 'saleDetalle' => $this->saleDetalle]);
-    }
-    public function obtenerVemtaTotal($datos)
-    {
-        $this->totalVendido = 0;
-        foreach ($datos->data as $dato) {
-            $this->totalVendido = $this->totalVendido + $dato->total;
-        }
     }
     public function obtenerDetalle($idSale)
     {
