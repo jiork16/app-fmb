@@ -1,5 +1,5 @@
 <div class="mdl-grid" style="padding-top: 5px;">
-    <div wire:loading wire:target="limpiarCarrito,relizarVenta,perPage,cambioRegistroCarro,eliminarCarrito">
+    <div wire:loading wire:target="limpiarCarrito,relizarVenta,perPage,cambioRegistroCarro,eliminarCarrito,previousPage,nextPage,gotoPage">
         @include('components.loading-indicator')
     </div>
     <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
