@@ -1,4 +1,7 @@
 <div class="mdl-grid">
+    <div wire:loading wire:target="startDate,endDate,perPage,obtenerDetalle">
+        @include('components.loading-indicator')
+    </div>
     <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
         <div class="card">
             <div class="card-body">
@@ -16,7 +19,7 @@
                                 <option>100</option>
                             </select>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6" hidden>
                             <input wire:model="search" class="form-control" type="text"
                                 placeholder="Buscar Producto...">
                         </div>
@@ -104,7 +107,13 @@
                                             <td>
                                                 <button class="btn btn-sm btn-primary btnDisplayBlocRela"
                                                     id="btnDetalle{{ $venta->id }}"
-                                                    wire:click="obtenerDetalle({{ $venta->id }})">Detalle</button>
+                                                    wire:key="obtenerDetalle{{ $venta->id }}"
+                                                    wire:target="obtenerDetalle({{ $venta->id }})"
+                                                    wire:loading.attr="disabled"
+                                                    wire:click="obtenerDetalle({{ $venta->id }})">
+                                                    <span wire:loading.remove wire:target="obtenerDetalle({{ $venta->id }})">Detalle</span>
+                                                    <span wire:loading wire:target="obtenerDetalle({{ $venta->id }})">Cargado...</span>
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
