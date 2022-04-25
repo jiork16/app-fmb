@@ -98,7 +98,7 @@
                                             {{ $producto->stockCaja }}</td>
                                         <td>
                                             <button class="btn btn-sm btn-outline-primary btnDisplayBlocRela"
-                                                id="btnAgregar"
+                                                id="btnAgregar{{ $producto->producto->id }}"
                                                 onclick="modal({{ $producto->producto->id }},'{{ $producto->producto->description }}')"
                                                 >Agregar
                                             </button>
