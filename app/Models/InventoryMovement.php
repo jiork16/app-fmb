@@ -76,7 +76,14 @@ class InventoryMovement extends Model
                 'products.pvpu',
                 'products.pvpc',
                 'products.description',
-                DB::raw('(movimientoS.sunit - IFNULL(movimientoR.runit,0)) AS totalStockUnidad,
+                DB::raw('
+                CASE
+                    WHEN
+                        (movimientoS.sunit - IFNULL(movimientoR.runit,0)) - (products.unit*movimientoS.sbox) < 0 THEN
+                        ((movimientoS.sunit - IFNULL(movimientoR.runit,0)) - (products.unit*movimientoS.sbox))*-1
+                    ELSE
+                        (movimientoS.sunit - IFNULL(movimientoR.runit,0)) - (products.unit*movimientoS.sbox)
+                END AS totalStockUnidad,
                 CASE 
                     WHEN (movimientoS.sunit - IFNULL(movimientoR.runit,0))<products.unit THEN 
                         0 
