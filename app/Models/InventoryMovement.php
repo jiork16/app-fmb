@@ -40,8 +40,7 @@ class InventoryMovement extends Model
             })
             ->select(
                 'inventory_movements.product_id',
-                DB::raw('sum(inventory_movements.box) AS sbox, 
-                sum(inventory_movements.unit)+(sum(inventory_movements.box)*products.unit) AS sunit')
+                DB::raw('sum(inventory_movements.box) AS sbox, sum(inventory_movements.total) AS sunit')
             )
             ->groupBy(
                 'inventory_movements.product_id',
@@ -59,8 +58,7 @@ class InventoryMovement extends Model
             })
             ->select(
                 'inventory_movements.product_id',
-                DB::raw('sum(inventory_movements.box) AS rbox, 
-                sum(inventory_movements.unit) AS runit')
+                DB::raw('sum(inventory_movements.box) AS rbox, sum(inventory_movements.total) AS runit')
             )
             ->groupBy(
                 'inventory_movements.product_id',
@@ -83,10 +81,9 @@ class InventoryMovement extends Model
                     WHEN (movimientoS.sunit - IFNULL(movimientoR.runit,0))<products.unit THEN 
                         0 
                     ELSE
-                        ROUND(ABS(products.unit/(movimientoS.sunit - ifnull(movimientoR.runit,0)))) 
+                        TRUNCATE(ABS((movimientoS.sunit - ifnull(movimientoR.runit,0))/products.unit),0) 
                 END AS totalStockCaja')
             )
-            //(movimientoS.sbox - IFNULL(movimientoR.rbox,0))
             ->where(function ($query2) use ($search) {
                 $query2->where('products.description', 'like', '%' . $search . '%')
                     ->orWhere('products.utility', 'like', '%' . $search . '%');
@@ -95,7 +92,7 @@ class InventoryMovement extends Model
                 'products.pvpr',
                 'products.pvpu',
                 'products.pvpc',
-                'products.description','products.unit'
+                'products.description',
             );
         return $query->orderBy($orderBy, $orderAsc ? 'asc' : 'desc');
     }
