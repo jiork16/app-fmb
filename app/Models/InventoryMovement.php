@@ -83,7 +83,7 @@ class InventoryMovement extends Model
                     WHEN (movimientoS.sunit - IFNULL(movimientoR.runit,0))<products.unit THEN 
                         0 
                     ELSE
-                        ROUND(ABS(products.unit/(movimientoS.sunit - ifnull(movimientor.runit,0)))) 
+                        ROUND(ABS(products.unit/(movimientoS.sunit - ifnull(movimientoR.runit,0)))) 
                 END AS totalStockCaja')
             )
             //(movimientoS.sbox - IFNULL(movimientoR.rbox,0))
