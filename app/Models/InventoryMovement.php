@@ -40,7 +40,8 @@ class InventoryMovement extends Model
             })
             ->select(
                 'inventory_movements.product_id',
-                DB::raw('sum(inventory_movements.box) AS sbox, sum(inventory_movements.unit) AS sunit')
+                DB::raw('sum(inventory_movements.box) AS sbox, 
+                sum(inventory_movements.unit)+(sum(inventory_movements.box)*products.unit) AS sunit')
             )
             ->groupBy(
                 'inventory_movements.product_id',
@@ -53,12 +54,13 @@ class InventoryMovement extends Model
                 ['products.status', '=', true],
                 ['inventory_movements.date_movement', '>=', $fecha],
                 ['inventory_movements.status', '=', true]
-            ])->when($idProducto > 0, function ($query)  use ($idProducto) {                    //  if role_id not equals to 2
+            ])->when($idProducto > 0, function ($query)  use ($idProducto) {
                 return $query->where('inventory_movements.product_id', $idProducto);
             })
             ->select(
                 'inventory_movements.product_id',
-                DB::raw('sum(inventory_movements.box) AS rbox, sum(inventory_movements.unit) AS runit')
+                DB::raw('sum(inventory_movements.box) AS rbox, 
+                sum(inventory_movements.unit) AS runit')
             )
             ->groupBy(
                 'inventory_movements.product_id',
@@ -76,8 +78,15 @@ class InventoryMovement extends Model
                 'products.pvpu',
                 'products.pvpc',
                 'products.description',
-                DB::raw('(movimientoS.sunit - IFNULL(movimientoR.runit,0)) AS totalStockUnidad, (movimientoS.sbox - IFNULL(movimientoR.rbox,0)) AS totalStockCaja')
+                DB::raw('(movimientoS.sunit - IFNULL(movimientoR.runit,0)) AS totalStockUnidad,
+                CASE 
+                    WHEN (movimientoS.sunit - IFNULL(movimientoR.runit,0))<products.unit THEN 
+                        0 
+                    ELSE
+                        ROUND(ABS(products.unit/(movimientos.sunit - ifnull(movimientor.runit,0)))) 
+                END AS totalStockCaja')
             )
+            //(movimientoS.sbox - IFNULL(movimientoR.rbox,0))
             ->where(function ($query2) use ($search) {
                 $query2->where('products.description', 'like', '%' . $search . '%')
                     ->orWhere('products.utility', 'like', '%' . $search . '%');
@@ -86,7 +95,7 @@ class InventoryMovement extends Model
                 'products.pvpr',
                 'products.pvpu',
                 'products.pvpc',
-                'products.description',
+                'products.description','products.unit'
             );
         return $query->orderBy($orderBy, $orderAsc ? 'asc' : 'desc');
     }
