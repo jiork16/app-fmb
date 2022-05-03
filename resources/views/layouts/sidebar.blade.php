@@ -132,7 +132,7 @@
                  </li> --}}
                  <li class="full-width divider-menu-h"></li>
                  <li class="full-width">
-                     <a href="/product" class="full-width">
+                     <a href="/products" class="full-width">
                          <div class="navLateral-body-cl">
                              <i class="zmdi zmdi-washing-machine"></i>
                          </div>
@@ -165,7 +165,7 @@
                              </a>
                          </li>
                          <li class="full-width">
-                             <a href="listSale" class="full-width">
+                             <a href="sales.report" class="full-width">
                                  <div class="navLateral-body-cl">
 
                                      <i class="zmdi zmdi-view-list-alt"></i>
@@ -177,18 +177,18 @@
                          </li>
                      </ul>
                  </li>
-                 {{-- <li class="full-width divider-menu-h"></li>
+                {{-- <li class="full-width divider-menu-h"></li>
                  <li class="full-width">
-                     <a href="inventory.html" class="full-width">
+                     <a href="product.iventory" class="full-width">
                          <div class="navLateral-body-cl">
                              <i class="zmdi zmdi-store"></i>
                          </div>
                          <div class="navLateral-body-cr hide-on-tablet">
-                             INVENTORY
+                             INVENTARIO
                          </div>
                      </a>
-                 </li> --}}
-                 <li class="full-width divider-menu-h"></li>
+                 </li>
+                 <li class="full-width divider-menu-h"></li> --}}
                  {{-- <li class="full-width">
                      <a href="#!" class="full-width btn-subMenu">
                          <div class="navLateral-body-cl">

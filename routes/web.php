@@ -2,6 +2,7 @@
 
 use App\Http\Livewire\Sale;
 use App\Http\Livewire\Index;
+use App\Http\Livewire\Inventory;
 use App\Http\Livewire\ListSale;
 use App\Http\Livewire\ListProduct;
 use Illuminate\Support\Facades\Route;
@@ -23,9 +24,10 @@ Route::get('/', function () {
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard', Index::class);
-    Route::get('product', ListProduct::class)->name('producto');
+    Route::get('products', ListProduct::class)->name('productos');
     Route::get('sale', Sale::class)->name('sale');
-    Route::get('listSale', ListSale::class)->name('listSale');
+    Route::get('sales.report', ListSale::class)->name('sales.report');
+    Route::get('product.iventory', Inventory::class)->name('product_iventory');
     /* Route::get('/dashboard', [PageController::class, 'index']);
     Route::get('product', function () {
         return view('product.product');

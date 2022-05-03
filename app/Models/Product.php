@@ -17,7 +17,7 @@ class Product extends Model
                 $query->where('products.description', 'like', '%' . $search . '%')
                     ->orWhere('products.utility', 'like', '%' . $search . '%')
                     ->orWhere('laboratories.name', 'like', '%' . $search . '%');
-            });
+            })->orderBy('products.status', 'desc')->orderBy('products.description','asc');
     }
 
     public function laboratory()
