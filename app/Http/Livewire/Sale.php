@@ -87,7 +87,7 @@ class Sale extends Component
     public int $cantidaProducto = 1;
     public $presentacion = "";
     public bool $siPvpr = false;
-    protected $listeners = [ 'setProduct' => 'setProductoSelect'];
+    protected $listeners = ['setProduct' => 'setProductoSelect'];
     public $carroVenta = [];
     public function render()
     {
@@ -110,29 +110,28 @@ class Sale extends Component
                 QueryBuilder::for(InventoryMovement::stock($this->fechMaxInvent, $this->search, $this->idproductoSelect))->get()
             )->response()->getData();
             foreach ($datoProducto->data as $producto) {
-                $descuento              = $producto->producto->porcen_discount;
-                $pvu                    = $descuento > 0 ? $producto->producto->pvpu_discount : $producto->producto->pvpu;
-                $pvc                    = $descuento > 0 ? $producto->producto->pvpc_discount : $producto->producto->pvpc;
+                $object->descuento      = $producto->producto->porcen_discount;
                 $object->idCarro        = uniqid(true);
                 $object->id             = $producto->producto->id;
                 $object->description    = $producto->producto->description;
                 $object->pvpu           = $producto->producto->pvpu;
-                $object->pvpc           = $producto->producto->pvpc;
-                $object->pvpr           = $producto->producto->pvpr;
-                $object->pvpud          = $pvu;
-                $object->pvpcd          = $pvc;
+                $object->pvp            = $producto->producto->pvp;
                 $object->cantidad       = $this->cantidaProducto;
                 $object->unidadProducto = $producto->producto->unit;
+                $object->pvud           =  $object->descuento  > 0 ? $producto->producto->pvpu_discount : 0;
+                $object->pvpd           =  $object->descuento  > 0 ? $producto->producto->pvpc_discount : 0;
                 if ($this->siPvpr) {
-                    $object->precio     =   $object->pvpr;
-                    $object->total      =  $this->cantidaProducto * $object->pvpr;
+                    $object->precio     = ($this->presentacion == "UNIDAD") ? $object->pvpu : $object->pvp;
+                    $object->total      =  $this->cantidaProducto *$object->precio;
                 } else {
-                    $object->precio     = ($this->presentacion == "UNIDAD") ? $pvu : $pvc;
-                    $object->total      = ($this->presentacion == "UNIDAD") ? $this->cantidaProducto *  $pvu : $this->cantidaProducto *   $pvc;
-                }
-                $object->descuento = 0;
-                if ($descuento > 0) {
-                    $object->descuento  = ($this->presentacion == "UNIDAD")  ? $pvu : $pvc;
+                    if ( $object->descuento > 0) {
+                        $object->precio     = ($this->presentacion == "UNIDAD") ? $object->pvud : $object->pvpd;
+                        $object->total      = ($this->presentacion == "UNIDAD") ? $this->cantidaProducto *  $object->pvud : $this->cantidaProducto * $object->pvpd;
+                    }else{
+                        $object->precio     = ($this->presentacion == "UNIDAD") ? $object->pvpu : $object->pvp;
+                        $object->total      = ($this->presentacion == "UNIDAD") ? $this->cantidaProducto *  $object->pvpu : $this->cantidaProducto * $object->pvp;
+                    }
+                   
                 }
                 $object->siPvpr         = $this->siPvpr;
                 $object->presentacion   = $this->presentacion;
@@ -160,10 +159,10 @@ class Sale extends Component
                     case 1:  # Presentacion
                         //dd($nuevoValor);
                         if ($nuevoValor == "UNIDAD") {
-                            $carroVenta["precio"]       = $carroVenta["descuento"] > 0 ? $carroVenta["pvpud"] : $carroVenta["pvpu"];
+                            $carroVenta["precio"]       = $carroVenta["descuento"] > 0 ? $carroVenta["pvud"] : $carroVenta["pvpu"];
                             $carroVenta["total"]        = $carroVenta["cantidad"] * $carroVenta["precio"];
                         } else {
-                            $carroVenta["precio"]       = $carroVenta["descuento"] > 0 ? $carroVenta["pvpcd"] : $carroVenta["pvpc"];
+                            $carroVenta["precio"]       = $carroVenta["descuento"] > 0 ? $carroVenta["pvpd"] : $carroVenta["pvp"];
                             $carroVenta["total"]        = $carroVenta["cantidad"] * $carroVenta["precio"];
                         }
                         $carroVenta["presentacion"]     = $nuevoValor;
@@ -171,7 +170,7 @@ class Sale extends Component
 
                     case 2: # Cantidad
                         if ($carroVenta["siPvpr"]) {
-                            $carroVenta["total"] = $nuevoValor * $carroVenta["pvpr"];
+                            $carroVenta["total"] = $nuevoValor * ($carroVenta["presentacion"] == "UNIDAD" ? $carroVenta["pvpu"] : $carroVenta["pvp"]);
                         } else {
                             $carroVenta["total"] = $nuevoValor * $carroVenta["precio"];
                         }
@@ -181,13 +180,13 @@ class Sale extends Component
                         //dd($nuevoValor);
                         if ($carroVenta["siPvpr"] != $nuevoValor) {
                             if ($nuevoValor) {
-                                $carroVenta["precio"] = $carroVenta["pvpr"];
-                                $carroVenta["total"] = $carroVenta["cantidad"] * $carroVenta["pvpr"];
+                                $carroVenta["precio"] =$carroVenta["presentacion"] == "UNIDAD" ? $carroVenta["pvpu"] : $carroVenta["pvp"];
+                                $carroVenta["total"] = $carroVenta["cantidad"] * (($carroVenta["presentacion"] == "UNIDAD") ? $carroVenta["pvpu"] : $carroVenta["pvp"]);
                             } else {
                                 if ($carroVenta["presentacion"] == "UNIDAD") {
-                                    $carroVenta["precio"] = $carroVenta["descuento"] > 0 ? $carroVenta["pvpud"] : $carroVenta["pvpu"];
+                                    $carroVenta["precio"] = $carroVenta["descuento"] > 0 ? $carroVenta["pvud"] : $carroVenta["pvpu"];
                                 } else {
-                                    $carroVenta["precio"] = $carroVenta["descuento"] > 0 ? $carroVenta["pvpcd"] : $carroVenta["pvpc"];
+                                    $carroVenta["precio"] = $carroVenta["descuento"] > 0 ? $carroVenta["pvpd"] : $carroVenta["pvp"];
                                 }
                                 $carroVenta["total"] =  $carroVenta["cantidad"] * $carroVenta["precio"];
                             }
@@ -230,16 +229,17 @@ class Sale extends Component
         $this->subTotal = 0;
         foreach ($this->carroVenta as $carroVenta) {
             if ($carroVenta["siPvpr"]) {
-                $this->subTotal  = $this->subTotal + $carroVenta["pvpr"];
+                $this->subTotal  = $this->subTotal + ((($carroVenta["presentacion"]  == "UNIDAD")?  $carroVenta["pvpu"]: $carroVenta["pvp"])*$carroVenta["cantidad"]);
             } else {
                 if ($carroVenta["presentacion"]  == "UNIDAD") {
-                    $this->subTotal  =  $this->subTotal + $carroVenta["pvpu"];
+                    $this->subTotal  =  $this->subTotal + ($carroVenta["pvpu"]*$carroVenta["cantidad"]);
+                    $this->totalDescuento = $this->totalDescuento  + (($carroVenta["pvpu"]-$carroVenta["pvud"]) *  $carroVenta["cantidad"]);
                 } else {
-                    $this->subTotal  =  $this->subTotal + $carroVenta["pvpc"];
+                    $this->subTotal  =  $this->subTotal + ($carroVenta["pvp"]*$carroVenta["cantidad"]);
+                    $this->totalDescuento = $this->totalDescuento  + (($carroVenta["pvp"]-$carroVenta["pvpd"]) *  $carroVenta["cantidad"]);
                 }
-                $this->totalCarrito = $this->totalCarrito  + $carroVenta["total"];
-                $this->totalDescuento = $this->totalDescuento  + ($carroVenta["descuento"] *  $carroVenta["cantidad"]);
             }
+            $this->totalCarrito = $this->totalCarrito  + $carroVenta["total"];
         }
     }
     public function relizarVenta()
@@ -260,7 +260,7 @@ class Sale extends Component
             "user_id"           => Auth::user()->id,
             "form_payment_id"   => 1,
             "sub_total"         => $this->subTotal,
-            "discount"          => $this->totalDescuento > 0 ? ($this->subTotal - $this->totalDescuento) : 0,
+            "discount"          => $this->totalDescuento,
             "base_iva_0"        => 0,
             "base_iva_12"       => 0,
             "total"             => $this->totalCarrito,
@@ -270,13 +270,9 @@ class Sale extends Component
         foreach ($this->carroVenta as $carroVenta) {
             $descuento  = 0;
             $precio   = 0;
-            if ($carroVenta["siPvpr"] == false) {
-                $precio             = $carroVenta["presentacion"] == "UNIDAD" ?  $carroVenta["pvpu"] : $carroVenta["pvpc"];
-                if ($carroVenta["descuento"] > 0) {
-                    $descuento             = $carroVenta["presentacion"] == "UNIDAD" ?  $carroVenta["pvpud"] : $carroVenta["pvpcd"];
-                }
-            } else {
-                $precio             = $carroVenta["pvpr"];
+            $precio = $carroVenta["presentacion"] == "UNIDAD" ?  $carroVenta["pvpu"] : $carroVenta["pvp"];
+            if ($carroVenta["descuento"] > 0) {
+                $descuento             = $carroVenta["presentacion"] == "UNIDAD" ?  $carroVenta["pvud"] : $carroVenta["pvpd"];
             }
             $fillableDetail = [
                 "sale_id"       => $sale->id,

@@ -39,9 +39,6 @@
                                 <th class="text-primary" style="width: 7%">
                                     Precio Caja
                                 </th>
-                                <th class="text-primary" style="width: 8%">
-                                    Precio Relevante
-                                </th>
                                 <th class="text-primary" style="width: 15%">
                                     Laboratorio
                                 </th>
@@ -58,8 +55,7 @@
                                         <td class="p-1 text-center  text-dark text-capitalize">
                                             {{ $producto->description }}</td>
                                         <td class="p-1 text-center  text-dark">{{ $producto->pvpu }}</td>
-                                        <td class="p-1 text-center  text-dark">{{ $producto->pvpc }}</td>
-                                        <td class="p-1 text-center  text-dark">{{ $producto->pvpr }}</td>
+                                        <td class="p-1 text-center  text-dark">{{ $producto->pvp }}</td>
                                         <td class="p-1 text-center  text-dark">
                                             {{ $producto->laboratory->name }}
                                         </td>

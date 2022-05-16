@@ -15,13 +15,12 @@ class CreateInventoryHistoriesTable extends Migration
     {
         Schema::create('inventory_histories', function (Blueprint $table) {
             $table->id();
-            $table->unsingedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->date('date_inventory');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
-
     /**
      * Reverse the migrations.
      *

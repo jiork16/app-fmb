@@ -19,9 +19,8 @@ class CreateProductsTable extends Migration
             $table->integer('unit');
             $table->boolean('iva')->default(0);
             $table->boolean('generic')->default(1);
-            $table->decimal('pvpr', 5, 2);
+            $table->decimal('pvp', 5, 2);
             $table->decimal('pvpu', 5, 2);
-            $table->decimal('pvpc', 5, 2);
             $table->decimal('pvpu_discount', 5, 2);
             $table->decimal('pvpc_discount', 5, 2);
             $table->decimal('porcen_gain', 5, 2);

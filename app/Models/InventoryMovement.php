@@ -72,9 +72,10 @@ class InventoryMovement extends Model
                 $join->on('inventory_movements.product_id', '=', 'movimientoR.product_id');
             })->select(
                 'inventory_movements.product_id',
-                'products.pvpr',
+                'products.pvp',
                 'products.pvpu',
-                'products.pvpc',
+                'products.pvpu_discount',
+                'products.pvpc_discount',
                 'products.description',
                 DB::raw('
                 ((movimientoS.sunit - IFNULL(movimientoR.runit,0)) % products.unit)AS totalStockUnidad,
@@ -90,9 +91,10 @@ class InventoryMovement extends Model
                     ->orWhere('products.utility', 'like', '%' . $search . '%');
             })->groupBy(
                 'inventory_movements.product_id',
-                'products.pvpr',
+                'products.pvp',
                 'products.pvpu',
-                'products.pvpc',
+                'products.pvpu_discount',
+                'products.pvpc_discount',
                 'products.description',
             );
         return $query->orderBy($orderBy, $orderAsc ? 'asc' : 'desc');

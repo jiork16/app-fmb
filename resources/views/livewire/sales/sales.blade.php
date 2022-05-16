@@ -46,15 +46,18 @@
                                     ])
                                 </th>
                                 <th class="text-primary" style="vertical-align: middle; width: 6%"
-                                    wire:click.prevent="sortBy('products.pvpc')" role="button">
-                                    PVPC
+                                    wire:click.prevent="sortBy('products.pvp')" role="button">
+                                    PVP
                                     @include('includes._sort-icon', [
-                                        'field' => 'products.pvpc',
+                                        'field' => 'products.pvp',
                                     ])
                                 </th>
-                                <th class="text-primary" style="vertical-align: middle; width: 5%">
-                                    PVPR
+                                <th class="text-primary" style=" vertical-align: middle; width: 6%">
+                                    PVPUD
                                 </th>
+                                <th class="text-primary" style="vertical-align: middle; width: 6%" >
+                                    PVPD
+                                </th>                                
                                 <th class="text-primary" style="vertical-align: middle; width: 10%">
                                     Descuento
                                 </th>
@@ -83,8 +86,9 @@
                                         <td class="text-sm-start">
                                             {{ $producto->producto->description }}</td>
                                         <td class="text-left">{{ $producto->producto->pvpu }}</td>
-                                        <td class="text-left">{{ $producto->producto->pvpc }}</td>
-                                        <td class="text-left">{{ $producto->producto->pvpr }}</td>
+                                        <td class="text-left">{{ $producto->producto->pvp }}</td>
+                                        <td class="text-left">{{ $producto->producto->pvpu_discount }}</td>
+                                        <td class="text-left">{{ $producto->producto->pvpc_discount }}</td>
                                         <td class="text-left">{{ $producto->producto->porcen_discount }}%</td>
                                         <td class="actions">
                                             {{ $producto->laboratorio->name }}
@@ -138,14 +142,18 @@
                                     ])
                                 </th>
                                 <th class="text-primary" style="vertical-align: middle; width: 6%"
-                                    wire:click.prevent="sortBy('products.pvpc')" role="button">
-                                    PVPC
+                                    wire:click.prevent="sortBy('products.pvp')" role="button">
+                                    PVP
                                     @include('includes._sort-icon', [
-                                        'field' => 'products.pvpc',
+                                        'field' => 'products.pvp',
                                     ])
                                 </th>
-                                <th class="text-primary" style="vertical-align: middle; width: 5%">
-                                    PVPR
+                                <th class="text-primary" style=" vertical-align: middle; width: 6%">
+                                    PVPUD
+                                </th>
+                                <th class="text-primary" style="vertical-align: middle; width: 6%" >
+                                    PVPD
+                                </th> 
                                 </th>
                                 <th class="text-primary" style="vertical-align: middle; width: 10%">
                                     Descuento
@@ -270,10 +278,10 @@
                                                         Precio Caja?
                                                     </label>
                                                     <input class="form-check-input" type="checkbox"
-                                                        name="pvpr{{ $carro['idCarro'] }}"
-                                                        id="pvpr{{ $carro['idCarro'] }}"
+                                                        name="pvp{{ $carro['idCarro'] }}"
+                                                        id="pvp{{ $carro['idCarro'] }}"
                                                         {{ $carro['siPvpr'] ? 'checked' : '' }}
-                                                        wire:click="cambioRegistroCarro('{{ $carro['idCarro'] }}',3, ($(pvpr{{ $carro['idCarro'] }}).is(':checked')) )"
+                                                        wire:click="cambioRegistroCarro('{{ $carro['idCarro'] }}',3, ($(pvp{{ $carro['idCarro'] }}).is(':checked')) )"
                                                         style="padding-left: 0;">
                                                 </div>
                                                 <div class="col-4 text-left"
@@ -329,7 +337,7 @@
                             <label class="form-check-label" for="defaultCheck1">
                                 Precio Caja?
                             </label>
-                            <input class="form-check-input" type="checkbox" name="pvpr" id="pvpr" wire:model="siPvpr">
+                            <input class="form-check-input" type="checkbox" name="pvp" id="pvp" wire:model="siPvpr">
                         </div>
                     </div>
                 </div>
