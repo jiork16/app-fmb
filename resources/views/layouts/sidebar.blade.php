@@ -165,7 +165,7 @@
                              </a>
                          </li>
                          <li class="full-width">
-                             <a href="sales.report" class="full-width">
+                             <a href="/sales.report" class="full-width">
                                  <div class="navLateral-body-cl">
 
                                      <i class="zmdi zmdi-view-list-alt"></i>
@@ -177,7 +177,7 @@
                          </li>
                      </ul>
                  </li>
-                {{-- <li class="full-width divider-menu-h"></li>
+                 {{-- <li class="full-width divider-menu-h"></li>
                  <li class="full-width">
                      <a href="product.iventory" class="full-width">
                          <div class="navLateral-body-cl">
