@@ -154,17 +154,6 @@
                      </a>
                      <ul class="full-width menu-principal sub-menu-options">
                          <li class="full-width">
-                             <a href="sale" class="full-width" data-turbolinks="false">
-                                 <div class="navLateral-body-cl">
-
-                                     <i class="zmdi zmdi-shopping-cart-add"></i>
-                                 </div>
-                                 <div class="navLateral-body-cr hide-on-tablet">
-                                     VENTA
-                                 </div>
-                             </a>
-                         </li>
-                         <li class="full-width">
                              <a href="/sales.report" class="full-width">
                                  <div class="navLateral-body-cl">
 
@@ -172,6 +161,17 @@
                                  </div>
                                  <div class="navLateral-body-cr hide-on-tablet">
                                      REPORTE VENTA
+                                 </div>
+                             </a>
+                         </li>
+                         <li class="full-width">
+                             <a href="sale" class="full-width" data-turbolinks="false">
+                                 <div class="navLateral-body-cl">
+
+                                     <i class="zmdi zmdi-shopping-cart-add"></i>
+                                 </div>
+                                 <div class="navLateral-body-cr hide-on-tablet">
+                                     VENTA
                                  </div>
                              </a>
                          </li>
