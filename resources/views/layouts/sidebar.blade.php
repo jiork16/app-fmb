@@ -165,9 +165,8 @@
                              </a>
                          </li>
                          <li class="full-width">
-                             <a href="sale" class="full-width" data-turbolinks="false">
+                             <a href="sale" class="full-width">
                                  <div class="navLateral-body-cl">
-
                                      <i class="zmdi zmdi-shopping-cart-add"></i>
                                  </div>
                                  <div class="navLateral-body-cr hide-on-tablet">
