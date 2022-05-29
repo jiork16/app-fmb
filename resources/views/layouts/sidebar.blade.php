@@ -153,16 +153,6 @@
                          <span class="zmdi zmdi-chevron-left"></span>
                      </a>
                      <ul class="full-width menu-principal sub-menu-options">
-                        <li class="full-width">
-                            <a href="sale" class="full-width">
-                                <div class="navLateral-body-cl">
-                                    <i class="zmdi zmdi-shopping-cart-add"></i>
-                                </div>
-                                <div class="navLateral-body-cr hide-on-tablet">
-                                    VENTA
-                                </div>
-                            </a>
-                        </li>
                          <li class="full-width">
                              <a href="sales.report" class="full-width">
                                  <div class="navLateral-body-cl">
@@ -173,6 +163,16 @@
                                  </div>
                              </a>
                          </li>
+                         <li class="full-width">
+                            <a href="sale" class="full-width">
+                                <div class="navLateral-body-cl">
+                                    <i class="zmdi zmdi-shopping-cart-add"></i>
+                                </div>
+                                <div class="navLateral-body-cr hide-on-tablet">
+                                    VENTA
+                                </div>
+                            </a>
+                        </li>
                      </ul>
                  </li>
                  {{-- <li class="full-width divider-menu-h"></li>
