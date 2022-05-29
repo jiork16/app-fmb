@@ -154,9 +154,8 @@
                      </a>
                      <ul class="full-width menu-principal sub-menu-options">
                          <li class="full-width">
-                             <a href="/sales.report" class="full-width">
+                             <a href="sales.report" class="full-width" data-turbolinks="false">
                                  <div class="navLateral-body-cl">
-
                                      <i class="zmdi zmdi-view-list-alt"></i>
                                  </div>
                                  <div class="navLateral-body-cr hide-on-tablet">
